@@ -44,7 +44,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	double xscroll=-1.402;
 	double yscroll=0;
 	
-	TextField tx;
+	TextField xScrollT,yScrollT,scaleT;
 	
 	double h = (double)sheight/(double)scale/2.0;
 	double w = (double)swidth/(double)scale/2.0;
@@ -136,6 +136,21 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	chng_frak.setLocation(600,5);
 	chng_frak.addActionListener(this);
 	this.add(chng_frak);
+	
+	scaleT=new TextField();
+	scaleT.setSize(100, 20);
+	scaleT.setLocation(400, 5);
+	this.add(scaleT);
+
+	xScrollT=new TextField();
+	xScrollT.setSize(100, 20);
+	xScrollT.setLocation(400, 25);
+	this.add(xScrollT);
+	
+	yScrollT=new TextField();
+	yScrollT.setSize(100, 20);
+	yScrollT.setLocation(400, 45);
+	this.add(yScrollT);
 	
 	update();
 	c= new complex(-0.8,0.156);
@@ -256,7 +271,6 @@ public void update(){
 		frakt = new Mandel(iteratio,2,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
 	}
 	else {
-		c=new complex(Double.parseDouble(tx.getText().split(" ")[0] ),Double.parseDouble(tx.getText().split(" ")[1] ));
 		frakt = new Julia(iteratio,2,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale,c);
 	}
 	frakt.update();
@@ -376,6 +390,22 @@ public BufferedImage getImg() {
 }
 public void setImg(BufferedImage img) {
 	this.img = img;
+}
+public boolean isInt (String s){
+	try{int i=Integer.valueOf(s);}catch(NumberFormatException nfe){return false;}
+	return true;
+}
+public boolean isNum (String s){
+	try{double i=Double.parseDouble(s);}catch(NumberFormatException nfe){return false;}
+	return true;
+}
+public void updateByT() {
+	String s=scaleT.getText(),x=xScrollT.getText(),y=yScrollT.getText();
+	System.out.println(isInt(s)+" "+isNum(x)+" "+isNum(y));
+	if(isInt(s))scale=Integer.valueOf(s);
+	if(isNum(x))xscroll=Double.valueOf(x);
+	if(isNum(y))yscroll=Double.valueOf(y);
+	update();
 }
 
 }

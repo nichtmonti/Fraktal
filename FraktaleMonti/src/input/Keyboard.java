@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import Main.SimpleDrawing;
+import Main.Starter;
 
 public class Keyboard implements KeyListener{
 
@@ -21,7 +22,7 @@ public class Keyboard implements KeyListener{
 		if(System.currentTimeMillis()-lleft>100)
 		{
 			
-			SimpleDrawing d=(SimpleDrawing) e.getSource();
+			SimpleDrawing d=Starter.getS();
 			if(e.getKeyChar()=='w')
 			{
 				d.moveUp();
@@ -40,6 +41,11 @@ public class Keyboard implements KeyListener{
 			else if(e.getKeyChar()=='d')
 			{
 				d.moveRight();
+			}
+			else if(e.getKeyCode()==KeyEvent.VK_ENTER)
+			{
+				System.out.println("hä");
+				d.updateByT();
 			}
 			
 			
