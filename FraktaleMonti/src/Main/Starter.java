@@ -17,10 +17,11 @@ public class Starter {
 		s.xScrollT.addKeyListener(key);
 		s.yScrollT.addKeyListener(key);
 		s.scaleT.addKeyListener(key);
+		s.cJul.addKeyListener(key);
 		
 		s.setFocusTraversalKeysEnabled(true);
 		s.requestFocus();
-		s.run();								//Monti war hier
+		s.run();								//André war hier
 		
 		//online test1
 	}
