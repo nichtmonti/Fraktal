@@ -18,6 +18,7 @@ public class Starter {
 		s.yScrollT.addKeyListener(key);
 		s.scaleT.addKeyListener(key);
 		s.cJul.addKeyListener(key);
+		s.tMax.addKeyListener(key);
 		
 		s.setFocusTraversalKeysEnabled(true);
 		s.requestFocus();
