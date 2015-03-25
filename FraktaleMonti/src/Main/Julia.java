@@ -7,7 +7,7 @@ import Util.complex;
 public class Julia extends Fraktal{
 private int iteration;
 private double max,xsize,ysize;
-private int[][] it;
+private float[][] it;
 private complex c;
 	protected Julia(int it, double max, double xmin, double xmax, double ymin, double ymax,int scale, complex c) {
 		super(xmin, xmax, ymin, ymax, scale);
@@ -16,7 +16,7 @@ private complex c;
 		xsize=xmax-xmin;
 		ysize=ymax-ymin;
 		this.c=c;
-		this.it=new int[(int)(xsize*scale)+1][(int)(ysize*scale)+1];
+		this.it=new float[(int)(xsize*scale)+1][(int)(ysize*scale)+1];
 	}
 	
 	private void render(){
@@ -37,18 +37,20 @@ private complex c;
 		}
 		render();
 	}
-	public int col(int x){
+	public int col(float x){
 		if (x==this.iteration)return 0;
 		return Color.HSBtoRGB((float)((float)x/(float)this.iteration), 1.0f, 0.8f);
 		//return (x==iteration)?0xffffff:0x000000;
 	}
-	public int calc(complex z){
+	public float calc(complex z){
 		int itera=0;
 		while(itera<this.iteration&&z.getAbs()<max){
 			z.sqr();
 			z.add(c);
 			itera++;
 		}
+		if(itera!=this.iteration)
+			return (float)(itera-Math.log(Math.log(z.getAbs())/Math.log(max))/Math.log(2));
 		return itera;
 	}
 }
