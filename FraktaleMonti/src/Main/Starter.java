@@ -22,7 +22,7 @@ public class Starter {
 		
 		s.setFocusTraversalKeysEnabled(true);
 		s.requestFocus();
-		s.run();								//André war hier
+		s.run();								//André war hier!!!
 		
 		//online test1
 	}
