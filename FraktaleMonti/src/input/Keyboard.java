@@ -44,8 +44,15 @@ public class Keyboard implements KeyListener{
 			}
 			else if(e.getKeyCode()==KeyEvent.VK_ENTER)
 			{
-				System.out.println("hä");
 				d.updateByT();
+			}
+			else if(e.getKeyCode()==KeyEvent.VK_PLUS)
+			{
+				d.riseIt();
+			}
+			else if(e.getKeyCode()==KeyEvent.VK_MINUS)
+			{
+				d.lowerIt();
 			}
 			
 			

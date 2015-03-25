@@ -240,9 +240,7 @@ public void actionPerformed(ActionEvent e) {
 		moveDown();
 	}
 	if(e.getActionCommand().equals("Iteration +")){
-		if(iteratio<(int)(iteratio*1.1))iteratio*=1.1;
-		else iteratio++;
-		update();
+		riseIt();
 	}	
 	if(e.getActionCommand().equals("Iteration -")){
 		iteratio*=0.9;
@@ -318,7 +316,15 @@ public void update2(){
 public static float round(double x, int dig) {
 	return (float)(Math.round(x*Math.pow(10,dig))/Math.pow(10, dig));
 }
-
+public void riseIt(){
+	if(iteratio<(int)(iteratio*1.1))iteratio*=1.1;
+	else iteratio++;
+	update();
+}
+public void lowerIt(){
+	iteratio*=0.9;
+	update();
+}
 public void paint(Graphics g) {
 	g.setColor(Color.WHITE);
 	try{g.drawImage(img, 0,0,img.getWidth(), img.getHeight(), null);}catch(java.lang.NullPointerException npe){}
