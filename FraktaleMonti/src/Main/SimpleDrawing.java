@@ -81,6 +81,18 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	zoomO.addActionListener(this);
 	this.add(zoomO);
 	
+	Button zoom2 =new Button("++");
+	zoom2.setSize(50, 30);
+	zoom2.setLocation(0, 35);
+	zoom2.addActionListener(this);
+	this.add(zoom2);
+	
+	Button zoomO2 =new Button("--");
+	zoomO2.setSize(50, 30);
+	zoomO2.setLocation(50, 35);
+	zoomO2.addActionListener(this);
+	this.add(zoomO2);
+	
 	Button left =new Button("left");
 	left.setSize(30, 30);
 	left.setLocation(168, 35);
@@ -208,7 +220,12 @@ public void actionPerformed(ActionEvent e) {
 	if(e.getActionCommand().equals("-")){
 		zoomOut(1);
 	}	
-	
+	if(e.getActionCommand().equals("++")){
+		zoomIn(10);
+	}
+	if(e.getActionCommand().equals("--")){
+		zoomOut(10);
+	}	
 	if(e.getActionCommand().equals("left")){
 		moveLeft();
 	}
@@ -223,7 +240,8 @@ public void actionPerformed(ActionEvent e) {
 		moveDown();
 	}
 	if(e.getActionCommand().equals("Iteration +")){
-		iteratio*=1.1;
+		if(iteratio<(int)(iteratio*1.1))iteratio*=1.1;
+		else iteratio++;
 		update();
 	}	
 	if(e.getActionCommand().equals("Iteration -")){
