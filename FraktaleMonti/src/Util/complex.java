@@ -1,5 +1,7 @@
 package Util;
 
+import Main.SimpleDrawing;
+
 public class complex {
 	private double r,i;
 	
@@ -67,5 +69,8 @@ public class complex {
 		r=r0*r0-i0*i0;
 		i=2*r0*i0;
 		return this;
+	}
+	public String toString(){
+		return SimpleDrawing.round(r,5)+(i<0?"":"+")+SimpleDrawing.round(i,5)+"i";
 	}
 }
