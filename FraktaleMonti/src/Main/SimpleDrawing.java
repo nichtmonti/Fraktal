@@ -3,28 +3,19 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Scrollbar;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.KeyStroke;
 
 import Util.complex;
 
@@ -43,8 +34,8 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	int iteratio=100;
 	double xscroll=-1.402;
 	double yscroll=0;
-	
-	TextField xScrollT,yScrollT,scaleT;
+	double max=5;
+	TextField xScrollT,yScrollT,scaleT,cJul,tMax;
 	
 	double h = (double)sheight/(double)scale/2.0;
 	double w = (double)swidth/(double)scale/2.0;
@@ -53,8 +44,9 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	}
 	complex c;
 	fraktTyp fr = fraktTyp.Mandel;
-	Fraktal frakt = new Mandel(iteratio,5,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+	Fraktal frakt = new Mandel(iteratio,max,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
 	BufferedImage img;
+	
 	
 	
 
@@ -139,18 +131,28 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	scaleT=new TextField();
 	scaleT.setSize(100, 20);
-	scaleT.setLocation(400, 5);
+	scaleT.setLocation(360, 5);
 	this.add(scaleT);
 
 	xScrollT=new TextField();
 	xScrollT.setSize(100, 20);
-	xScrollT.setLocation(400, 25);
+	xScrollT.setLocation(360, 25);
 	this.add(xScrollT);
 	
 	yScrollT=new TextField();
 	yScrollT.setSize(100, 20);
-	yScrollT.setLocation(400, 45);
+	yScrollT.setLocation(360, 45);
 	this.add(yScrollT);
+	
+	cJul=new TextField();
+	cJul.setSize(100, 20);
+	cJul.setLocation(700, 5);
+	this.add(cJul);
+	
+	tMax=new TextField();
+	tMax.setSize(100,20);
+	tMax.setLocation(475,5);
+	this.add(tMax);
 	
 	update();
 	c= new complex(-0.8,0.156);
@@ -236,7 +238,7 @@ public void actionPerformed(ActionEvent e) {
 			swidth = (int)(16.0/9.0*(float)sheight);
 			scale*=swidth/w0;
 			System.out.println("generating fraktal..");
-			update();
+			update2();
 			System.out.println("arraylen neu: "+frakt.pixels.length);
 			System.out.println("done.");
 			
@@ -255,9 +257,14 @@ public void actionPerformed(ActionEvent e) {
 	if(e.getActionCommand().equals("Fraktal wechseln")){
       if(fr==fraktTyp.Mandel){
     	  fr=fraktTyp.Julia;
+    	  c=new complex(xscroll, yscroll);
+    	  xscroll=0;
+    	  yscroll=0;
       }
       else {
     	  fr=fraktTyp.Mandel;
+    	  xscroll=c.getR();
+    	  yscroll=c.getI();
       }
       update();
 	}
@@ -265,21 +272,38 @@ public void actionPerformed(ActionEvent e) {
 	
 }
 public void update(){
+	sheight=getHeight();
+	swidth=getWidth();
+	update2();
+}
+public void update2(){
 	h = (double)sheight/(double)scale/2.0;
 	w = (double)swidth/(double)scale/2.0;
 	if(fr==fraktTyp.Mandel){
-		frakt = new Mandel(iteratio,2,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+		frakt = new Mandel(iteratio,max,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
 	}
 	else {
-		frakt = new Julia(iteratio,2,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale,c);
+		frakt = new Julia(iteratio,max,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale,c);
 	}
 	frakt.update();
 	img = getImageFromArray(frakt.pixels,swidth,sheight);
+	if(fr==fraktTyp.Julia)cJul.setVisible(true);
+	else cJul.setVisible(false);
+	
+	if(c!=null)cJul.setText(c.toString());
+	scaleT.setText(""+scale);
+	xScrollT.setText(""+round(xscroll,3));
+	yScrollT.setText(""+round(yscroll,3));
+	
 	repaint();
 }
+public static float round(double x, int dig) {
+	return (float)(Math.round(x*Math.pow(10,dig))/Math.pow(10, dig));
+}
+
 public void paint(Graphics g) {
 	g.setColor(Color.WHITE);
-	g.drawImage(img, 0,0,img.getWidth(), img.getHeight(), null);
+	try{g.drawImage(img, 0,0,img.getWidth(), img.getHeight(), null);}catch(java.lang.NullPointerException npe){}
 	g.drawLine(swidth/2,0,swidth/2,sheight);
 	g.drawLine(0,sheight/2,swidth,sheight/2);
 	g.drawString(xscroll+"+"+yscroll+"i",swidth/2+3,sheight/2-3);
@@ -310,7 +334,7 @@ public void paint(Graphics g) {
 public static BufferedImage getImageFromArray(int[][] pixels, int width, int height) {
 	for(int i=0;i<height;i++){
     	boolean rot=true;
-    	int c1=pixels[0][i];
+    	int c1=new Color(204,0,0).getRGB();
     	for(int j=0;j<width;j++){
     		if(pixels[j][i]!=c1){
     			rot=false;
@@ -324,7 +348,7 @@ public static BufferedImage getImageFromArray(int[][] pixels, int width, int hei
     }
     for(int i=0;i<width;i++){
     	boolean rot=true;
-    	int c1 =pixels[i][0];
+    	int c1 =new Color(204,0,0).getRGB();
     	for(int j=0;j<height;j++){
     		if(pixels[i][j]!=c1){
     			rot=false;
@@ -428,12 +452,27 @@ public boolean isNum (String s){
 	try{double i=Double.parseDouble(s);}catch(NumberFormatException nfe){return false;}
 	return true;
 }
+public complex getComp(String s){
+	double r,i;
+	complex c;
+	String[] sp = s.replace("-", " -").replace("+"," ").trim().split(" ");
+	r=Double.valueOf(sp[0]);
+	i=Double.valueOf(sp[1].replace('i', ' ').trim());
+	c=new complex (r,i);
+	return c;
+}
+public boolean isComp (String s){
+	try{getComp(s);}catch(java.lang.NumberFormatException e){return false;}
+	return true;
+}
 public void updateByT() {
-	String s=scaleT.getText(),x=xScrollT.getText(),y=yScrollT.getText();
-	System.out.println(isInt(s)+" "+isNum(x)+" "+isNum(y));
+		
+	String s=scaleT.getText(),x=xScrollT.getText(),y=yScrollT.getText(),j=cJul.getText();
 	if(isInt(s))scale=Integer.valueOf(s);
 	if(isNum(x))xscroll=Double.valueOf(x);
 	if(isNum(y))yscroll=Double.valueOf(y);
+	if(isComp(j))c=getComp(j);
+	
 	update();
 }
 
