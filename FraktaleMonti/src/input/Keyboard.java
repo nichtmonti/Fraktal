@@ -19,11 +19,18 @@ public class Keyboard implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		
 		System.out.println(e.getKeyCode());
+		keys[e.getKeyCode()]=true;
 		if(System.currentTimeMillis()-lleft>100)
 		{
 			
 			SimpleDrawing d=Starter.getS();
-			if(e.getKeyChar()=='w')
+			
+			if(keys[17]==true&&keys[83]==true){
+				d.genSFrakt();
+				d.safe();
+				d.reset();
+			}
+			else if(e.getKeyChar()=='w')
 			{
 				d.moveUp();
 			}
@@ -54,7 +61,9 @@ public class Keyboard implements KeyListener{
 			{
 				d.lowerIt();
 			}
-			
+			else if(e.getKeyCode()==122)
+			{
+			}
 			
 			lleft=System.currentTimeMillis();
 			d=null;

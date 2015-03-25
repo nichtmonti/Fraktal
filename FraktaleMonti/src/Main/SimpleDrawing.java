@@ -2,6 +2,7 @@ package Main;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -16,6 +17,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.Timer;
 
 import Util.complex;
 
@@ -26,7 +28,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	JMenuItem menuItem;
 	JRadioButtonMenuItem rbMenuItem;
 	JCheckBoxMenuItem cbMenuItem;
-	
+	String msg="hallo";
 	int sheight = 720;
 	int swidth = (int)(16.0f/9.0f*sheight);
 	int scaleFactor=1;
@@ -36,18 +38,19 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	double yscroll=0;
 	double max=5;
 	TextField xScrollT,yScrollT,scaleT,cJul,tMax;
-	
+	Font font = new Font("Arial",Font.BOLD,20);
 	double h = (double)sheight/(double)scale/2.0;
 	double w = (double)swidth/(double)scale/2.0;
+	int h0,w0,s0;
 	enum fraktTyp {
 		Mandel,Julia
 	}
 	complex c;
+	
 	fraktTyp fr = fraktTyp.Mandel;
 	Fraktal frakt = new Mandel(iteratio,max,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
 	BufferedImage img;
-	
-	
+	Timer timer;
 	
 
 	static SimpleDrawing s;
@@ -63,111 +66,116 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		//Build the first menu.
 		menu = new JMenu("A Menu");
 
-	
+		timer = new Timer(1000/60,new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				System.out.println("test2");
+				repaint();
+			}
+		});
 		
-	this.setLayout(null);
-    setSize(new Dimension(swidth, sheight));
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setVisible(true);
-	Button zoom =new Button("+");
-	zoom.setSize(50, 30);
-	zoom.setLocation(0, 5);
-	zoom.addActionListener(this);
-	this.add(zoom);
+		this.setLayout(null);
+		setSize(new Dimension(swidth, sheight));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		Button zoom =new Button("+");
+		zoom.setSize(50, 30);
+		zoom.setLocation(0, 5);
+		zoom.addActionListener(this);
+		this.add(zoom);
+		
+		Button zoomO =new Button("-");
+		zoomO.setSize(50, 30);
+		zoomO.setLocation(50, 5);
+		zoomO.addActionListener(this);
+		this.add(zoomO);
+		
+		Button zoom2 =new Button("++");
+		zoom2.setSize(50, 30);
+		zoom2.setLocation(0, 35);
+		zoom2.addActionListener(this);
+		this.add(zoom2);
+		
+		Button zoomO2 =new Button("--");
+		zoomO2.setSize(50, 30);
+		zoomO2.setLocation(50, 35);
+		zoomO2.addActionListener(this);
+		this.add(zoomO2);
+		
+		Button left =new Button("left");
+		left.setSize(30, 30);
+		left.setLocation(168, 35);
+		left.addActionListener(this);
+		this.add(left);
+		
+		Button right =new Button("right");
+		right.setSize(30, 30);
+		right.setLocation(232, 35);
+		right.addActionListener(this);
+		this.add(right);
+		
+		Button up =new Button("up");
+		up.setSize(30, 30);
+		up.setLocation(200, 4);
+		up.addActionListener(this);
+		this.add(up);
+		
+		Button down =new Button("down");
+		down.setSize(30, 30);
+		down.setLocation(200, 35);
+		down.addActionListener(this);
+		this.add(down);
+		
+		Button save =new Button("save");
+		save.setSize(50, 30);
+		save.setLocation(100, 5);
+		save.addActionListener(this);
+		this.add(save);
+		
+		Button it_up =new Button("Iteration +");
+		it_up.setSize(70, 30);
+		it_up.setLocation(275, 5);
+		it_up.addActionListener(this);
+		this.add(it_up);
+		
+		Button it_down =new Button("Iteration -");
+		it_down.setSize(70, 30);
+		it_down.setLocation(275, 35);
+		it_down.addActionListener(this);
+		this.add(it_down);
+		
+		Button chng_frak =new Button("Fraktal wechseln");
+		chng_frak.setSize(100,30);
+		chng_frak.setLocation(600,5);
+		chng_frak.addActionListener(this);
+		this.add(chng_frak);
+		
+		scaleT=new TextField();
+		scaleT.setSize(100, 20);
+		scaleT.setLocation(360, 5);
+		this.add(scaleT);
+		
+		xScrollT=new TextField();
+		xScrollT.setSize(100, 20);
+		xScrollT.setLocation(360, 25);
+		this.add(xScrollT);
+		
+		yScrollT=new TextField();
+		yScrollT.setSize(100, 20);
+		yScrollT.setLocation(360, 45);
+		this.add(yScrollT);
+		
+		cJul=new TextField();
+		cJul.setSize(100, 20);
+		cJul.setLocation(705, 5);
+		this.add(cJul);
+		
+		tMax=new TextField();
+		tMax.setSize(100,20);
+		tMax.setLocation(475,5);
+		this.add(tMax);
+		
+		update();
 	
-	Button zoomO =new Button("-");
-	zoomO.setSize(50, 30);
-	zoomO.setLocation(50, 5);
-	zoomO.addActionListener(this);
-	this.add(zoomO);
-	
-	Button zoom2 =new Button("++");
-	zoom2.setSize(50, 30);
-	zoom2.setLocation(0, 35);
-	zoom2.addActionListener(this);
-	this.add(zoom2);
-	
-	Button zoomO2 =new Button("--");
-	zoomO2.setSize(50, 30);
-	zoomO2.setLocation(50, 35);
-	zoomO2.addActionListener(this);
-	this.add(zoomO2);
-	
-	Button left =new Button("left");
-	left.setSize(30, 30);
-	left.setLocation(168, 35);
-	left.addActionListener(this);
-	this.add(left);
-	
-	Button right =new Button("right");
-	right.setSize(30, 30);
-	right.setLocation(232, 35);
-	right.addActionListener(this);
-	this.add(right);
-	
-	Button up =new Button("up");
-	up.setSize(30, 30);
-	up.setLocation(200, 4);
-	up.addActionListener(this);
-	this.add(up);
-	
-	Button down =new Button("down");
-	down.setSize(30, 30);
-	down.setLocation(200, 35);
-	down.addActionListener(this);
-	this.add(down);
-
-	Button save =new Button("save");
-	save.setSize(50, 30);
-	save.setLocation(100, 5);
-	save.addActionListener(this);
-	this.add(save);
-	
-	Button it_up =new Button("Iteration +");
-	it_up.setSize(70, 30);
-	it_up.setLocation(275, 5);
-	it_up.addActionListener(this);
-	this.add(it_up);
-	
-	Button it_down =new Button("Iteration -");
-	it_down.setSize(70, 30);
-	it_down.setLocation(275, 35);
-	it_down.addActionListener(this);
-	this.add(it_down);
-	
-	Button chng_frak =new Button("Fraktal wechseln");
-	chng_frak.setSize(100,30);
-	chng_frak.setLocation(600,5);
-	chng_frak.addActionListener(this);
-	this.add(chng_frak);
-	
-	scaleT=new TextField();
-	scaleT.setSize(100, 20);
-	scaleT.setLocation(360, 5);
-	this.add(scaleT);
-
-	xScrollT=new TextField();
-	xScrollT.setSize(100, 20);
-	xScrollT.setLocation(360, 25);
-	this.add(xScrollT);
-	
-	yScrollT=new TextField();
-	yScrollT.setSize(100, 20);
-	yScrollT.setLocation(360, 45);
-	this.add(yScrollT);
-	
-	cJul=new TextField();
-	cJul.setSize(100, 20);
-	cJul.setLocation(700, 5);
-	this.add(cJul);
-	
-	tMax=new TextField();
-	tMax.setSize(100,20);
-	tMax.setLocation(475,5);
-	this.add(tMax);
-	
-	update();
-	c= new complex(-0.8,0.156);
 }
 
 public void zoomIn(int x)
@@ -213,64 +221,43 @@ public void moveDown()
 }
 
 public void actionPerformed(ActionEvent e) {
-	
-	if(e.getActionCommand().equals("+")){
+	if (e.getActionCommand()==null)repaint();
+	else if(e.getActionCommand().equals("+")){
 		zoomIn(1);
 	}
-	if(e.getActionCommand().equals("-")){
+	else if(e.getActionCommand().equals("-")){
 		zoomOut(1);
 	}	
-	if(e.getActionCommand().equals("++")){
+	else if(e.getActionCommand().equals("++")){
 		zoomIn(10);
 	}
-	if(e.getActionCommand().equals("--")){
+	else if(e.getActionCommand().equals("--")){
 		zoomOut(10);
 	}	
-	if(e.getActionCommand().equals("left")){
+	else if(e.getActionCommand().equals("left")){
 		moveLeft();
 	}
 	
-	if(e.getActionCommand().equals("right")){
+	else if(e.getActionCommand().equals("right")){
 		moveRight();
 	}	
-	if(e.getActionCommand().equals("up")){
+	else if(e.getActionCommand().equals("up")){
 		moveUp();
 	}	
-	if(e.getActionCommand().equals("down")){
+	else if(e.getActionCommand().equals("down")){
 		moveDown();
 	}
-	if(e.getActionCommand().equals("Iteration +")){
+	else if(e.getActionCommand().equals("Iteration +")){
 		riseIt();
 	}	
-	if(e.getActionCommand().equals("Iteration -")){
+	else if(e.getActionCommand().equals("Iteration -")){
 		iteratio*=0.9;
 		update();
 	}
-	if(e.getActionCommand().equals("save")){
-		try {
-			System.out.println("arraylen alt: "+frakt.pixels.length);
-			int h0=sheight+0,w0=swidth+0,s0=scale;
-			sheight = 3000;
-			swidth = (int)(16.0/9.0*(float)sheight);
-			scale*=swidth/w0;
-			System.out.println("generating fraktal..");
-			update2();
-			System.out.println("arraylen neu: "+frakt.pixels.length);
-			System.out.println("done.");
-			
-			System.out.println("saving...");
-		    String filen = "Mandelbrot_"+(float)(int)(xscroll*1000)/1000.0f+"+"+(float)(int)(yscroll*1000)/1000.0f+"i_zoom_"+scale;
-		    File outputfile = new File(filen+".png");
-		    ImageIO.write(img, "png", outputfile);
-		    System.out.println("done saving "+filen);
-		    
-		    sheight=h0;
-		    swidth=w0;
-		    scale=s0;
-		    update();
-		} catch (Exception p) {}
+	else if(e.getActionCommand().equals("save")){
+		safe();
 	}
-	if(e.getActionCommand().equals("Fraktal wechseln")){
+	else if(e.getActionCommand().equals("Fraktal wechseln")){
       if(fr==fraktTyp.Mandel){
     	  fr=fraktTyp.Julia;
     	  c=new complex(xscroll, yscroll);
@@ -286,6 +273,34 @@ public void actionPerformed(ActionEvent e) {
 	}
 	
 	
+}
+public void safe(){
+	try {
+		msg="saving...";
+		System.out.println("saving");
+	    String filen = "Mandelbrot_"+(float)(int)(xscroll*1000)/1000.0f+"+"+(float)(int)(yscroll*1000)/1000.0f+"i_zoom_"+scale;
+	    File outputfile = new File(filen+".png");
+	    ImageIO.write(img, "png", outputfile);
+
+	} catch (Exception p) {}
+}
+public void reset(){
+    sheight=h0;
+    swidth=w0;
+    scale=s0;
+    update();
+    msg="";
+}
+public void genSFrakt(){
+	h0=sheight;
+	w0=swidth;
+	s0=scale;
+	sheight = 3000;
+	swidth = (int)(16.0/9.0*(float)sheight);
+	scale*=swidth/w0;
+	msg="generating fraktal...";
+	System.out.println("generating fraktal");
+	update2();
 }
 public void update(){
 	sheight=getHeight();
@@ -326,11 +341,14 @@ public void lowerIt(){
 	update();
 }
 public void paint(Graphics g) {
+	timer.stop();
+	g.setFont(font);
 	g.setColor(Color.WHITE);
 	try{g.drawImage(img, 0,0,img.getWidth(), img.getHeight(), null);}catch(java.lang.NullPointerException npe){}
 	g.drawLine(swidth/2,0,swidth/2,sheight);
 	g.drawLine(0,sheight/2,swidth,sheight/2);
-	g.drawString(xscroll+"+"+yscroll+"i",swidth/2+3,sheight/2-3);
+	g.drawString(msg,830,50);
+	timer.start();
 }
 
 /*public void loop (){
