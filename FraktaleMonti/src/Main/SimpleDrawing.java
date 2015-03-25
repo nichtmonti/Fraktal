@@ -3,9 +3,15 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Scrollbar;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.TextEvent;
+import java.awt.event.TextListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -19,6 +25,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
+
+import Util.complex;
 
 public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
@@ -36,10 +44,15 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	double xscroll=-1.402;
 	double yscroll=0;
 	
+	TextField tx;
+	
 	double h = (double)sheight/(double)scale/2.0;
 	double w = (double)swidth/(double)scale/2.0;
-	
-
+	enum fraktTyp {
+		Mandel,Julia
+	}
+	complex c;
+	fraktTyp fr = fraktTyp.Mandel;
 	Fraktal frakt = new Mandel(iteratio,5,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
 	BufferedImage img;
 	
@@ -49,7 +62,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	
 	public SimpleDrawing() {	
-		System.out.println("kappa");
+		
 		
 		//MENU TEST
 		menuBar = new JMenuBar();
@@ -57,7 +70,6 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 		//Build the first menu.
 		menu = new JMenu("A Menu");
-
 
 	
 		
@@ -119,9 +131,20 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	it_down.addActionListener(this);
 	this.add(it_down);
 	
-
-	update();
+	Button chng_frak =new Button("Fraktal wechseln");
+	chng_frak.setSize(100,30);
+	chng_frak.setLocation(350,5);
+	chng_frak.addActionListener(this);
+	this.add(chng_frak);
 	
+	tx = new TextField();
+	tx.setText("-0.8 0.156");
+	tx.setSize(100,30);
+	tx.setLocation(475, 5);
+	this.add(tx);
+	
+	update();
+	c= new complex(-0.8,0.156);
 }
 
 public void zoomIn(int x)
@@ -220,13 +243,28 @@ public void actionPerformed(ActionEvent e) {
 		    update();
 		} catch (Exception p) {}
 	}
+	if(e.getActionCommand().equals("Fraktal wechseln")){
+      if(fr==fraktTyp.Mandel){
+    	  fr=fraktTyp.Julia;
+      }
+      else {
+    	  fr=fraktTyp.Mandel;
+      }
+      update();
+	}
 	
 	
 }
 public void update(){
 	h = (double)sheight/(double)scale/2.0;
 	w = (double)swidth/(double)scale/2.0;
-	frakt = new Mandel(iteratio,2,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+	if(fr==fraktTyp.Mandel){
+		frakt = new Mandel(iteratio,2,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+	}
+	else {
+		c=new complex(Double.parseDouble(tx.getText().split(" ")[0] ),Double.parseDouble(tx.getText().split(" ")[1] ));
+		frakt = new Julia(iteratio,2,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale,c);
+	}
 	frakt.update();
 	img = getImageFromArray(frakt.pixels,swidth,sheight);
 	repaint();
