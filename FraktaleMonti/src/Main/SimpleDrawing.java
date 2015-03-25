@@ -49,7 +49,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	
 	public SimpleDrawing() {	
-		
+		System.out.println("kappa");
 		
 		//MENU TEST
 		menuBar = new JMenuBar();
