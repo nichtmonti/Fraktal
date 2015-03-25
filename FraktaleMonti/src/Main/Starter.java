@@ -14,7 +14,7 @@ public class Starter {
 		s.addMouseWheelListener(new Mouse());
 		s.setFocusTraversalKeysEnabled(true);
 		s.requestFocus();
-		s.run();								//Jonas war hier
+		s.run();								//Monti war hier
 		
 		//online test1
 	}
