@@ -14,7 +14,6 @@ public class Starter {
 		s.addMouseWheelListener(new Mouse());
 		s.setFocusTraversalKeysEnabled(true);
 		s.requestFocus();
-		
-		s.run();
+		s.run();								//Jonas war hier
 	}
 }
