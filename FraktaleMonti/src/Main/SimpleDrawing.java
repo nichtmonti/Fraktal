@@ -194,32 +194,32 @@ public void actionPerformed(ActionEvent e) {
 	if(e.getActionCommand().equals("+")){
 		zoomIn(1);
 	}
-	if(e.getActionCommand().equals("-")){
+	else if(e.getActionCommand().equals("-")){
 		zoomOut(1);
 	}	
 	
-	if(e.getActionCommand().equals("left")){
+	else if(e.getActionCommand().equals("left")){
 		moveLeft();
 	}
 	
-	if(e.getActionCommand().equals("right")){
+	else if(e.getActionCommand().equals("right")){
 		moveRight();
 	}	
-	if(e.getActionCommand().equals("up")){
+	else if(e.getActionCommand().equals("up")){
 		moveUp();
 	}	
-	if(e.getActionCommand().equals("down")){
+	else if(e.getActionCommand().equals("down")){
 		moveDown();
 	}
-	if(e.getActionCommand().equals("Iteration +")){
+	else if(e.getActionCommand().equals("Iteration +")){
 		iteratio*=1.1;
 		update();
 	}	
-	if(e.getActionCommand().equals("Iteration -")){
+	else if(e.getActionCommand().equals("Iteration -")){
 		iteratio*=0.9;
 		update();
 	}
-	if(e.getActionCommand().equals("save")){
+	else if(e.getActionCommand().equals("save")){
 		try {
 			System.out.println("arraylen alt: "+frakt.pixels.length);
 			int h0=sheight+0,w0=swidth+0,s0=scale;
@@ -243,7 +243,7 @@ public void actionPerformed(ActionEvent e) {
 		    update();
 		} catch (Exception p) {}
 	}
-	if(e.getActionCommand().equals("Fraktal wechseln")){
+	else if(e.getActionCommand().equals("Fraktal wechseln")){
       if(fr==fraktTyp.Mandel){
     	  fr=fraktTyp.Julia;
       }
@@ -252,7 +252,9 @@ public void actionPerformed(ActionEvent e) {
       }
       update();
 	}
+	System.out.println("done button");
 	
+	this.setFocusTraversalKeysEnabled(true);
 	
 }
 public void update(){
