@@ -9,7 +9,13 @@ import java.awt.event.MouseWheelListener;
 import Main.SimpleDrawing;
 
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener{
-
+/*
+ * 
+ * dgsdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdf
+ * dfstrstrsfrsftrsrssssssssssssssssssssssssssssss
+ * 
+ * 
+ */
 	private static int mouseX = -1;
 	private static int mouseY = -1;
 	private static int mouseB = -1;
