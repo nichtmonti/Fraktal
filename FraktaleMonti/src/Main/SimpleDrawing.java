@@ -27,7 +27,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
 import Util.complex;
-
+//Hallo monti
 public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	JMenuBar menuBar;
@@ -133,15 +133,9 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	Button chng_frak =new Button("Fraktal wechseln");
 	chng_frak.setSize(100,30);
-	chng_frak.setLocation(350,5);
+	chng_frak.setLocation(600,5);
 	chng_frak.addActionListener(this);
 	this.add(chng_frak);
-	
-	tx = new TextField();
-	tx.setText("-0.8 0.156");
-	tx.setSize(100,30);
-	tx.setLocation(475, 5);
-	this.add(tx);
 	
 	update();
 	c= new complex(-0.8,0.156);
