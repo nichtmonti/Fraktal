@@ -485,7 +485,7 @@ public boolean isComp (String s){
 }
 public void updateByT() {
 		
-	String s=scaleT.getText(),x=xScrollT.getText(),y=yScrollT.getText(),j=cJul.getText(),m=tMax.getText();
+	String s=scaleT.getText().replace(',', '.'),x=xScrollT.getText().replace(',', '.'),y=yScrollT.getText().replace(',', '.'),j=cJul.getText().replace(',', '.'),m=tMax.getText().replace(',', '.');
 	if(isInt(s))scale=Integer.valueOf(s);
 	if(isNum(x))xscroll=Double.valueOf(x);
 	if(isNum(y))yscroll=Double.valueOf(y);
