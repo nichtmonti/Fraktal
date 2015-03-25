@@ -15,5 +15,7 @@ public class Starter {
 		s.setFocusTraversalKeysEnabled(true);
 		s.requestFocus();
 		s.run();								//Jonas war hier
+		
+		//online test
 	}
 }
