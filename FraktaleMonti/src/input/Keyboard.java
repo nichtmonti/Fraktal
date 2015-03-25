@@ -18,7 +18,7 @@ public class Keyboard implements KeyListener{
 
 	public void keyPressed(KeyEvent e) {
 		
-		System.out.println(e.getKeyChar());
+		System.out.println(e.getKeyCode());
 		if(System.currentTimeMillis()-lleft>100)
 		{
 			
@@ -46,11 +46,11 @@ public class Keyboard implements KeyListener{
 			{
 				d.updateByT();
 			}
-			else if(e.getKeyCode()==KeyEvent.VK_PLUS)
+			else if(e.getKeyCode()==107||e.getKeyCode()==521)
 			{
 				d.riseIt();
 			}
-			else if(e.getKeyCode()==KeyEvent.VK_MINUS)
+			else if(e.getKeyCode()==109||e.getKeyCode()==45)
 			{
 				d.lowerIt();
 			}
