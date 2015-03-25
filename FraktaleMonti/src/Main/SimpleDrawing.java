@@ -27,7 +27,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
 import Util.complex;
-//Hallo monti
+
 public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	JMenuBar menuBar;
@@ -203,32 +203,32 @@ public void actionPerformed(ActionEvent e) {
 	if(e.getActionCommand().equals("+")){
 		zoomIn(1);
 	}
-	else if(e.getActionCommand().equals("-")){
+	if(e.getActionCommand().equals("-")){
 		zoomOut(1);
 	}	
 	
-	else if(e.getActionCommand().equals("left")){
+	if(e.getActionCommand().equals("left")){
 		moveLeft();
 	}
 	
-	else if(e.getActionCommand().equals("right")){
+	if(e.getActionCommand().equals("right")){
 		moveRight();
 	}	
-	else if(e.getActionCommand().equals("up")){
+	if(e.getActionCommand().equals("up")){
 		moveUp();
 	}	
-	else if(e.getActionCommand().equals("down")){
+	if(e.getActionCommand().equals("down")){
 		moveDown();
 	}
-	else if(e.getActionCommand().equals("Iteration +")){
+	if(e.getActionCommand().equals("Iteration +")){
 		iteratio*=1.1;
 		update();
 	}	
-	else if(e.getActionCommand().equals("Iteration -")){
+	if(e.getActionCommand().equals("Iteration -")){
 		iteratio*=0.9;
 		update();
 	}
-	else if(e.getActionCommand().equals("save")){
+	if(e.getActionCommand().equals("save")){
 		try {
 			System.out.println("arraylen alt: "+frakt.pixels.length);
 			int h0=sheight+0,w0=swidth+0,s0=scale;
@@ -252,7 +252,7 @@ public void actionPerformed(ActionEvent e) {
 		    update();
 		} catch (Exception p) {}
 	}
-	else if(e.getActionCommand().equals("Fraktal wechseln")){
+	if(e.getActionCommand().equals("Fraktal wechseln")){
       if(fr==fraktTyp.Mandel){
     	  fr=fraktTyp.Julia;
       }
@@ -261,9 +261,7 @@ public void actionPerformed(ActionEvent e) {
       }
       update();
 	}
-	System.out.println("done button");
 	
-	this.setFocusTraversalKeysEnabled(true);
 	
 }
 public void update(){
@@ -310,7 +308,36 @@ public void paint(Graphics g) {
 }*/
 
 public static BufferedImage getImageFromArray(int[][] pixels, int width, int height) {
+	for(int i=0;i<height;i++){
+    	boolean rot=true;
+    	int c1=pixels[0][i];
+    	for(int j=0;j<width;j++){
+    		if(pixels[j][i]!=c1){
+    			rot=false;
+    		}
+    	}
+    	if(rot&&i!=0){
+    		for(int j=0;j<width;j++){
+    			pixels[j][i]=pixels[j][i-1];
+    		}
+        }
+    }
+    for(int i=0;i<width;i++){
+    	boolean rot=true;
+    	int c1 =pixels[i][0];
+    	for(int j=0;j<height;j++){
+    		if(pixels[i][j]!=c1){
+    			rot=false;
+    		}
+    	}
+    	if(rot&&i!=0){
+    		for(int j=0;j<height;j++){
+    			pixels[i][j]=pixels[i-1][j];
+    		}
+        }
+    }
     BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+
     for(int i=0;i<height;i++){
     	for(int j=0;j<width;j++){
     		image.setRGB(j,i,pixels[j][i]);
