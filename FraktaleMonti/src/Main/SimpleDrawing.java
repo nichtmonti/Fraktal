@@ -200,7 +200,13 @@ public void zoomOut(int x)
 }
 	update();
 }
-	
+public void center() 
+{
+	scroll.setI(0);
+	scroll.setR(0);
+	scale=500;
+	update();
+}
 public void moveLeft()
 {
 	scroll.add(new complex(-w*0.1,0));
@@ -215,13 +221,13 @@ public void moveRight()
 
 public void moveUp()
 {
-	scroll.add(new complex(0,h*0.1));
+	scroll.add(new complex(0,-h*0.1));
 	update();
 }
 
 public void moveDown()
 {
-	scroll.add(new complex(0,-h*0.1));
+	scroll.add(new complex(0,h*0.1));
 	update();
 }
 
@@ -232,14 +238,7 @@ public void actionPerformed(ActionEvent e) {
 	}
 	
 	else if(e.getActionCommand().equals("Zentrieren")){
-		
-		
-			scroll.setI(0);
-			scroll.setR(0);
-		
-	
-		update();
-		
+		center();
 	}
 	
 	else if(e.getActionCommand().equals("-")){
@@ -284,6 +283,8 @@ public void actionPerformed(ActionEvent e) {
     	  fr=fraktTyp.Mandel;
     	  scroll=c;
       }
+      this.setFocusTraversalKeysEnabled(true);
+      this.requestFocus();
       update();
 	}
 	
@@ -339,7 +340,7 @@ public void update2(){
 	if(c!=null)cJul.setText(c.toString());
 	scaleT.setText(""+scale);
 	ScrollT.setText(scroll.toString());
-	tMax.setText(""+round(max,2));
+	tMax.setText(""+max);
 	
 	repaint();
 }
