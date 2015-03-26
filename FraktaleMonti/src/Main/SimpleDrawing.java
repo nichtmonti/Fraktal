@@ -28,7 +28,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	JMenuItem menuItem;
 	JRadioButtonMenuItem rbMenuItem;
 	JCheckBoxMenuItem cbMenuItem;
-	String msg="hallo";
+	String msg="";
 	int sheight = 720;
 	int swidth = (int)(16.0f/9.0f*sheight);
 	int scaleFactor=1;
