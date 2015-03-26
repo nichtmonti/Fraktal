@@ -164,7 +164,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 		tMax=new TextField();
 		tMax.setSize(100,20);
-		tMax.setLocation(360,25);
+		tMax.setLocation(360,45);
 		this.add(tMax);
 		
 		update();
@@ -315,7 +315,7 @@ public void update2(){
 	if(c!=null)cJul.setText(c.toString());
 	scaleT.setText(""+scale);
 	ScrollT.setText(scroll.toString());
-	tMax.setText(""+tMax);
+	tMax.setText(""+max);
 	
 	repaint();
 }
