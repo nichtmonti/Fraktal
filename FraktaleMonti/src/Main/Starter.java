@@ -17,9 +17,9 @@ public class Starter {
 		s.addMouseMotionListener(new Mouse());
 		s.addMouseWheelListener(new Mouse());
 		for(int n=0;n<s.getContentPane().getComponentCount();n++){
-			System.out.println(s.getContentPane().getComponent(n)+" "+s.getContentPane().getComponent(n).getClass()+" "+Button.class);
+			
 			if(s.getContentPane().getComponent(n) instanceof Button||s.getContentPane().getComponent(n) instanceof TextField){
-				System.out.println("added key");
+			
 				s.getContentPane().getComponent(n).addKeyListener(key);
 			}
 		}
