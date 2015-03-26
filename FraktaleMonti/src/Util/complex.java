@@ -49,14 +49,19 @@ public class complex {
 	public double getAbs(){
 		return Math.sqrt(i*i+r*r);
 	}
-	/*public complex pow(complex c){
-		double abs=Math.pow(this.getAbs(),c.getAbs());
-		double angle=this.getAngle()+c.getAngle();
-		this.r=Math.cos(angle)*abs;
-		this.i=Math.sin(angle)*abs;
+	public complex pow(int n){
+		complex c0=this;
+		for(int i=0;i<n;i++)mult(c0);
 		return this;
 	}
-	public complex pow(double j) {
+	public complex exp(){
+		double r0=Math.exp(r)*Math.cos(i);
+		double i0=Math.exp(r)*Math.sin(i);
+		r=r0;
+		i=i0;
+		return this;
+	}
+	/*public complex pow(double j) {
 		double abs=Math.pow(this.getAbs(),j);
 		double angle=this.getAngle()*j;
 		this.r=Math.cos(angle)*abs;

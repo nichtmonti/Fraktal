@@ -5,7 +5,7 @@ public class Fraktal {
 	public int[][] pixels;
 	protected double xmin,xmax,ymax,ymin,scale;
 	
-	protected Fraktal (double xmin, double xmax, double ymin, double ymax,int scale){
+	protected Fraktal (double xmin, double xmax, double ymin, double ymax,long scale){
 		this.xmin=xmin;
 		this.xmax=xmax;
 		this.ymin=ymin;

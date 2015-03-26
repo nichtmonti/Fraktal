@@ -18,7 +18,6 @@ public class Keyboard implements KeyListener{
 
 	public void keyPressed(KeyEvent e) {
 		
-		System.out.println(e.getKeyCode());
 		keys[e.getKeyCode()]=true;
 		if(System.currentTimeMillis()-lleft>100)
 		{
@@ -29,6 +28,9 @@ public class Keyboard implements KeyListener{
 				d.genSFrakt();
 				d.safe();
 				d.reset();
+			}
+			else if(keys[17]&&keys[48]){
+				d.center();
 			}
 			else if(e.getKeyChar()=='w')
 			{
@@ -61,9 +63,19 @@ public class Keyboard implements KeyListener{
 			{
 				d.lowerIt();
 			}
-			else if(e.getKeyCode()==122)
+			else if(e.getKeyCode()==33)
 			{
+				d.zoomIn(5);
 			}
+			else if(e.getKeyCode()==34)
+			{
+				d.zoomOut(5);
+			}
+			else if(e.getKeyCode()==122){
+				if(d.rundgang.isRunning()==false)d.rundgang.start();
+				else d.rundgang.stop();
+			}
+			else System.out.println(e.getKeyCode());
 			
 			lleft=System.currentTimeMillis();
 			d=null;

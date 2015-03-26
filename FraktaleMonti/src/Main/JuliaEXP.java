@@ -4,12 +4,12 @@ import java.awt.Color;
 import Util.complex;
 
 
-public class Julia extends Fraktal{
+public class JuliaEXP extends Fraktal{
 private int iteration;
 private double max,xsize,ysize;
 private float[][] it;
 private complex c;
-	protected Julia(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale, complex c) {
+	protected JuliaEXP(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale, complex c) {
 		super(xmin, xmax, ymin, ymax, scale);
 		this.max=max;
 		this.iteration=it;
@@ -45,7 +45,9 @@ private complex c;
 	public float calc(complex z){
 		int itera=0;
 		while(itera<this.iteration&&z.getAbs()<max){
-			z.sqr().add(c);
+			//z.sqr();
+			complex a=z;
+			z.exp().add(c);
 			itera++;
 		}
 		if(itera!=this.iteration)
