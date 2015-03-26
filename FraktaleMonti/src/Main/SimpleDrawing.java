@@ -81,6 +81,14 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		zoom.addActionListener(this);
 		this.add(zoom);
 		
+		Button center =new Button("Zentrieren");
+		center.setSize(80, 30);
+		center.setLocation(900, 5);
+		center.addActionListener(this);
+		this.add(center);
+		
+		
+		
 		Button zoomO =new Button("-");
 		zoomO.setSize(50, 30);
 		zoomO.setLocation(50, 5);
@@ -167,8 +175,12 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		tMax.setLocation(360,45);
 		this.add(tMax);
 		
+		
+		
+		
 		update();
 	
+		
 }
 
 public void zoomIn(int x)
@@ -218,6 +230,20 @@ public void actionPerformed(ActionEvent e) {
 	else if(e.getActionCommand().equals("+")){
 		zoomIn(1);
 	}
+	
+	else if(e.getActionCommand().equals("Zentrieren")){
+		
+		if(fr==fraktTyp.Julia)
+		{
+			
+		}
+		else{
+		
+		}
+		update();
+		
+	}
+	
 	else if(e.getActionCommand().equals("-")){
 		zoomOut(1);
 	}	
