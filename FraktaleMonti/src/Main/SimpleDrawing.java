@@ -34,10 +34,9 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	int scaleFactor=1;
 	int scale = scaleFactor*(int)5e+2;
 	int iteratio=100;
-	double xscroll=-1.402;
-	double yscroll=0;
+	complex scroll=new complex(0,0);
 	double max=5;
-	TextField xScrollT,yScrollT,scaleT,cJul,tMax;
+	TextField ScrollT,scaleT,cJul,tMax;
 	Font font = new Font("Arial",Font.BOLD,20);
 	double h = (double)sheight/(double)scale/2.0;
 	double w = (double)swidth/(double)scale/2.0;
@@ -48,7 +47,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	complex c;
 	
 	fraktTyp fr = fraktTyp.Mandel;
-	Fraktal frakt = new Mandel(iteratio,max,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+	Fraktal frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	BufferedImage img;
 	Timer timer;
 	
@@ -161,15 +160,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		scaleT.setLocation(360, 5);
 		this.add(scaleT);
 		
-		xScrollT=new TextField();
-		xScrollT.setSize(100, 20);
-		xScrollT.setLocation(360, 25);
-		this.add(xScrollT);
-		
-		yScrollT=new TextField();
-		yScrollT.setSize(100, 20);
-		yScrollT.setLocation(360, 45);
-		this.add(yScrollT);
+		ScrollT=new TextField();
+		ScrollT.setSize(100, 20);
+		ScrollT.setLocation(360, 25);
+		this.add(ScrollT);
 		
 		cJul=new TextField();
 		cJul.setSize(100, 20);
@@ -209,25 +203,25 @@ public void zoomOut(int x)
 	
 public void moveLeft()
 {
-	xscroll-=w*0.1;
+	scroll.add(new complex(-w*0.1,0));
 	update();
 }
 
 public void moveRight()
 {
-	xscroll+=w*0.1;
+	scroll.add(new complex(w*0.1,0));
 	update();
 }
 
 public void moveUp()
 {
-	yscroll-=h*0.1;
+	scroll.add(new complex(0,h*0.1));
 	update();
 }
 
 public void moveDown()
 {
-	yscroll+=h*0.1;
+	scroll.add(new complex(0,-h*0.1));
 	update();
 }
 
@@ -285,14 +279,12 @@ public void actionPerformed(ActionEvent e) {
 	else if(e.getActionCommand().equals("Fraktal wechseln")){
       if(fr==fraktTyp.Mandel){
     	  fr=fraktTyp.Julia;
-    	  c=new complex(xscroll, yscroll);
-    	  xscroll=0;
-    	  yscroll=0;
+    	  c=scroll;
+    	  scroll=new complex(0,0);
       }
       else {
     	  fr=fraktTyp.Mandel;
-    	  xscroll=c.getR();
-    	  yscroll=c.getI();
+    	  scroll=c;
       }
       update();
 	}
@@ -303,7 +295,7 @@ public void safe(){
 	try {
 		msg="saving...";
 		System.out.println("saving");
-	    String filen = "Mandelbrot_"+(float)(int)(xscroll*1000)/1000.0f+"+"+(float)(int)(yscroll*1000)/1000.0f+"i_zoom_"+scale;
+	    String filen = "Mandelbrot_"+scroll.toString()+"_"+scale;
 	    File outputfile = new File(filen+".png");
 	    ImageIO.write(img, "png", outputfile);
 
@@ -336,10 +328,10 @@ public void update2(){
 	h = (double)sheight/(double)scale/2.0;
 	w = (double)swidth/(double)scale/2.0;
 	if(fr==fraktTyp.Mandel){
-		frakt = new Mandel(iteratio,max,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+		frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	}
 	else {
-		frakt = new Julia(iteratio,max,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale,c);
+		frakt = new Julia(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
 	frakt.update();
 	img = getImageFromArray(frakt.pixels,swidth,sheight);
@@ -348,8 +340,7 @@ public void update2(){
 	
 	if(c!=null)cJul.setText(c.toString());
 	scaleT.setText(""+scale);
-	xScrollT.setText(""+round(xscroll,3));
-	yScrollT.setText(""+round(yscroll,3));
+	ScrollT.setText(scroll.toString());
 	
 	repaint();
 }
@@ -476,16 +467,16 @@ public void setIteratio(int iteratio) {
 	this.iteratio = iteratio;
 }
 public double getXscroll() {
-	return xscroll;
+	return scroll.getR();
 }
 public void setXscroll(double xscroll) {
-	this.xscroll = xscroll;
+	scroll.setR(xscroll);
 }
 public double getYscroll() {
-	return yscroll;
+	return scroll.getI();
 }
 public void setYscroll(double yscroll) {
-	this.yscroll = yscroll;
+	this.scroll.setI(yscroll);
 }
 public double getH() {
 	return h;
@@ -534,10 +525,9 @@ public boolean isComp (String s){
 }
 public void updateByT() {
 		
-	String s=scaleT.getText().replace(',', '.'),x=xScrollT.getText().replace(',', '.'),y=yScrollT.getText().replace(',', '.'),j=cJul.getText().replace(',', '.'),m=tMax.getText().replace(',', '.');
+	String s=scaleT.getText().replace(',', '.'),x=ScrollT.getText().replace(',', '.'),j=cJul.getText().replace(',', '.'),m=tMax.getText().replace(',', '.');
 	if(isInt(s))scale=Integer.valueOf(s);
-	if(isNum(x))xscroll=Double.valueOf(x);
-	if(isNum(y))yscroll=Double.valueOf(y);
+	if(isComp(x))scroll=getComp(x);
 	if(isComp(j))c=getComp(j);
 	if(isNum(m))max=Double.valueOf(m);
 	
