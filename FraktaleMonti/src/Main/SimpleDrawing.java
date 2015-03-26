@@ -66,9 +66,8 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		//Build the first menu.
 		menu = new JMenu("A Menu");
 
-		timer = new Timer(1000/60,new ActionListener(){
+		timer = new Timer(1000/30,new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				System.out.println("test2");
 				repaint();
 			}
 		});
