@@ -14,8 +14,7 @@ public class Starter {
 		s.addMouseMotionListener(new Mouse());
 		s.addMouseWheelListener(new Mouse());
 		
-		s.xScrollT.addKeyListener(key);
-		s.yScrollT.addKeyListener(key);
+		s.ScrollT.addKeyListener(key);
 		s.scaleT.addKeyListener(key);
 		s.cJul.addKeyListener(key);
 		s.tMax.addKeyListener(key);
