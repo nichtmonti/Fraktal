@@ -341,7 +341,7 @@ public void update2(){
 	if(c!=null)cJul.setText(c.toString());
 	scaleT.setText(""+scale);
 	ScrollT.setText(scroll.toString());
-	tMax.setText(""+max);
+	tMax.setText(""+round(max,2));
 	
 	repaint();
 }
