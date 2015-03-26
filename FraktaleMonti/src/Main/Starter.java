@@ -1,5 +1,8 @@
 package Main;
 
+import java.awt.Button;
+import java.awt.TextField;
+
 import input.Keyboard;
 import input.Mouse;
 
@@ -13,12 +16,13 @@ public class Starter {
 		s.addMouseListener(new Mouse());
 		s.addMouseMotionListener(new Mouse());
 		s.addMouseWheelListener(new Mouse());
-		
-		s.ScrollT.addKeyListener(key);
-		s.scaleT.addKeyListener(key);
-		s.cJul.addKeyListener(key);
-		s.tMax.addKeyListener(key);
-		
+		for(int n=0;n<s.getContentPane().getComponentCount();n++){
+			System.out.println(s.getContentPane().getComponent(n)+" "+s.getContentPane().getComponent(n).getClass()+" "+Button.class);
+			if(s.getContentPane().getComponent(n) instanceof Button||s.getContentPane().getComponent(n) instanceof TextField){
+				System.out.println("added key");
+				s.getContentPane().getComponent(n).addKeyListener(key);
+			}
+		}
 		s.setFocusTraversalKeysEnabled(true);
 		s.requestFocus();
 		s.run();								//Andre war hier!!!

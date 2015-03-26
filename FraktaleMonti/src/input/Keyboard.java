@@ -30,6 +30,9 @@ public class Keyboard implements KeyListener{
 				d.safe();
 				d.reset();
 			}
+			if(keys[17]&&keys[48]){
+				d.center();
+			}
 			else if(e.getKeyChar()=='w')
 			{
 				d.moveUp();
