@@ -64,8 +64,13 @@ public class Keyboard implements KeyListener{
 			{
 				d.lowerIt();
 			}
-			else if(e.getKeyCode()==122)
+			else if(e.getKeyCode()==33)
 			{
+				d.zoomIn(5);
+			}
+			else if(e.getKeyCode()==34)
+			{
+				d.zoomOut(5);
 			}
 			
 			lleft=System.currentTimeMillis();
