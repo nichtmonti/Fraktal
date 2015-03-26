@@ -233,13 +233,11 @@ public void actionPerformed(ActionEvent e) {
 	
 	else if(e.getActionCommand().equals("Zentrieren")){
 		
-		if(fr==fraktTyp.Julia)
-		{
-			
-		}
-		else{
 		
-		}
+			scroll.setI(0);
+			scroll.setR(0);
+		
+	
 		update();
 		
 	}
