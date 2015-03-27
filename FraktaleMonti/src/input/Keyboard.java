@@ -73,7 +73,9 @@ public class Keyboard implements KeyListener{
 			}
 			else if(e.getKeyCode()==122){
 				if(d.rundgang.isRunning()==false)d.rundgang.start();
-				else d.rundgang.stop();
+				else{
+					d.rundgang.stop();
+				}
 			}
 			else System.out.println(e.getKeyCode());
 			

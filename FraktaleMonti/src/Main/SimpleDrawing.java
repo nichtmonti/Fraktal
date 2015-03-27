@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Scrollbar;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.Timer;
-import java.awt.Scrollbar;
+
 import Util.complex;
 
 public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
@@ -60,14 +62,15 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		double y=-1;
 		double x=-1;
 		double changex=0.05, changey=0.05;
+		public boolean flag=true;
 		public void actionPerformed(ActionEvent arg0) {
 			changex=((double)anSp.getValue())/100.0*Math.signum(changex);
 			changey=((double)anSp.getValue())/100.0*Math.signum(changey);
 			x+=changex;
-			if(Math.abs(x)>=1){
+			if(Math.abs(x)>=(fr==fraktTyp.JuliaEXP?0.25:1)){
 				y+=changey;
 				changex*=-1;
-				if(Math.abs(y)>=1)changey*=-1;
+				if(Math.abs(y)>=(fr==fraktTyp.JuliaEXP?0.25:1))changey*=-1;
 			}
 			if(fr==fraktTyp.Mandel)moveTo(new complex(x,y));
 			else changeJC(x,y); 
@@ -165,11 +168,17 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		it_down.addActionListener(this);
 		this.add(it_down);
 		
-		Button chng_frak =new Button("Fraktal wechseln");
-		chng_frak.setSize(100,30);
-		chng_frak.setLocation(600,5);
-		chng_frak.addActionListener(this);
-		this.add(chng_frak);
+		Button plus_frak =new Button("Fraktal ->");
+		plus_frak.setSize(75,30);
+		plus_frak.setLocation(600,5);
+		plus_frak.addActionListener(this);
+		this.add(plus_frak);
+		
+		Button minus_frak =new Button("<- Fraktal");
+		minus_frak.setSize(75,30);
+		minus_frak.setLocation(525,5);
+		minus_frak.addActionListener(this);
+		this.add(minus_frak);
 		
 		scaleT=new TextField();
 		scaleT.setSize(100, 20);
@@ -302,8 +311,9 @@ public void actionPerformed(ActionEvent e) {
 	else if(e.getActionCommand().equals("save")){
 		safe();
 	}
-	else if(e.getActionCommand().equals("Fraktal wechseln")){
+	else if(e.getActionCommand().equals("Fraktal ->")){
 		fraktAk++;
+		if(fraktAk>typen.length)fraktAk-=typen.length;
 		fr=typen[fraktAk%3];
 		if((fraktAk-1)%3==0){
 		  c=scroll;
@@ -316,17 +326,31 @@ public void actionPerformed(ActionEvent e) {
       this.requestFocus();
       update();
 	}
-	
+	else if(e.getActionCommand().equals("<- Fraktal")){
+		fraktAk--;
+		if(fraktAk<0)fraktAk+=typen.length;
+		fr=typen[fraktAk%typen.length];
+		if((fraktAk-1)%3==0){
+		  c=scroll;
+		  scroll=new complex(0,0);
+		}
+		else if(fr==fraktTyp.Mandel){
+    	  scroll=c;
+		}
+      this.setFocusTraversalKeysEnabled(true);
+      this.requestFocus();
+      update();
+	}
 	
 }
 public void safe(){
 	try {
-		msg="saving...";
-		System.out.println("saving");
-	    String filen = "Mandelbrot_"+scroll.toString()+"_"+scale;
-	    File outputfile = new File(filen+".png");
+		String location = JOptionPane.showInputDialog("Please enter the desired destination", "Saving");
+		String filen = JOptionPane.showInputDialog("You can now enter a custom file name", "Saving");
+		if(filen==null)filen=fr+"_"+scroll.toString()+"_"+scale;
+	    File outputfile = new File((location==null?"":location)+filen+".png");
 	    ImageIO.write(img, "png", outputfile);
-
+	    JOptionPane.showConfirmDialog(menuBar,"done saving","saving",0);
 	} catch (Exception p) {}
 }
 public void reset(){
