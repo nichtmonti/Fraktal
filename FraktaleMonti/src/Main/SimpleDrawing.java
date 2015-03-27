@@ -209,9 +209,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		tMax.setLocation(360,45);
 		this.add(tMax);
 		
-		
-		
-		
+			
 		update();
 	
 		
@@ -313,7 +311,9 @@ public void actionPerformed(ActionEvent e) {
 		update();
 	}
 	else if(e.getActionCommand().equals("save")){
+		genSFrakt();
 		safe();
+		reset();
 	}
 	else if(e.getActionCommand().equals("Fraktal ->")){
 		fraktAk++;
@@ -354,7 +354,7 @@ public void safe(){
 		if(filen==null)filen=fr+"_"+scroll.toString()+"_"+scale;
 	    File outputfile = new File((location==null?"":location)+filen+".png");
 	    ImageIO.write(img, "png", outputfile);
-	    JOptionPane.showConfirmDialog(menuBar,"done saving","saving",0);
+	    JOptionPane.showConfirmDialog(menuBar,"done saving","saving",-1);
 	} catch (Exception p) {}
 }
 public void reset(){
