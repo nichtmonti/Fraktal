@@ -1,6 +1,6 @@
-package Main;
-import java.awt.Color;
+package Fraktale;
 
+import java.awt.Color;
 import Util.complex;
 
 
@@ -9,7 +9,7 @@ private int iteration;
 private double max,xsize,ysize;
 private float[][] it;
 private complex c;
-	protected Julia(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale, complex c) {
+	public Julia(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale, complex c) {
 		super(xmin, xmax, ymin, ymax, scale);
 		this.max=max;
 		this.iteration=it;

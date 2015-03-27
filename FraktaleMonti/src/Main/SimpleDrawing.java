@@ -21,6 +21,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.Timer;
 
+import Fraktale.Fraktal;
+import Fraktale.Julia;
+import Fraktale.JuliaEXP;
+import Fraktale.Mandel;
 import Util.complex;
 
 public class SimpleDrawing extends JFrame implements ActionListener, Runnable{

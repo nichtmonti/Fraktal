@@ -1,4 +1,4 @@
-package Main;
+package Fraktale;
 import java.awt.Color;
 
 import Util.complex;
@@ -8,7 +8,7 @@ public class Mandel extends Fraktal{
 private int iteration;
 private double max,xsize,ysize;
 private float[][] it;
-	protected Mandel(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale) {
+	public Mandel(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale) {
 		super(xmin, xmax, ymin, ymax, scale);
 		this.max=max;
 		this.iteration=it;
