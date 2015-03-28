@@ -26,7 +26,7 @@ public class Starter {
 		}
 		s.setFocusTraversalKeysEnabled(true);
 		s.requestFocus();
-		s.run();								//Andre war hier!!!
+		s.run();								
 		
 		//online test1
 	}

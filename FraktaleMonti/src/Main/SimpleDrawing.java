@@ -26,7 +26,7 @@ import Fraktale.*;
 
 public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	private static final long serialVersionUID = 1L;
-	
+	Thread thread1 = new Thread(this);
 	JMenuBar menuBar;
 	JMenu menu, submenu;
 	JMenuItem menuItem;
@@ -60,11 +60,13 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	Timer timer;
 	
 	Expression ex;
+	Thread thread2;
 	
 	public Timer rundgang = new Timer(5000,new ActionListener(){
 		double y=-1;
 		double x=-1;
 		double changex=0.05, changey=0.05;
+		public boolean flag=true;
 		public void actionPerformed(ActionEvent arg0) {
 			changex=((double)anSp.getValue())/100.0*Math.signum(changex);
 			changey=((double)anSp.getValue())/100.0*Math.signum(changey);
@@ -105,10 +107,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 		Button center =new Button("Zentrieren");
 		center.setSize(80, 30);
-		center.setLocation(1100, 5);
+		center.setLocation(900, 5);
 		center.addActionListener(this);
 		this.add(center);
-		//t
+		
 
 		
 		Button zoomO =new Button("-");
@@ -210,10 +212,12 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 			
 		funT=new TextField();
-		funT.setSize(200,20);
-		funT.setLocation(860,5);
+		funT.setSize(100,20);
+		funT.setLocation(1000,5);
 		this.add(funT);
-		
+		thread2 = new Thread(frakt);
+		thread1.start();
+		thread2.start();
 		update();
 	
 		
@@ -391,7 +395,7 @@ public void update2(){
 		frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	}
 	else if(fr==fraktTyp.JuliaEXP){
-		frakt = new JuliaFUN(ex, iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
+		frakt = new JuliaEXP(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
 	else if(fr==fraktTyp.JuliaFUN){
 		frakt = new JuliaFUN(ex,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
@@ -405,8 +409,8 @@ public void update2(){
 	else cJul.setVisible(false);
 	if(rundgang.isRunning())anSp.setVisible(true);
 	else anSp.setVisible(false);
-	if(fr==fraktTyp.JuliaFUN||fr==fraktTyp.JuliaEXP)funT.setVisible(true);
-	else funT.setVisible(false);
+	if(fr!=fraktTyp.JuliaFUN)funT.setVisible(false);
+	else funT.setVisible(true);
 	
 	if(c!=null)cJul.setText(c.toString());
 	if(ex!=null)funT.setText(ex.toString());

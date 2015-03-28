@@ -1,6 +1,6 @@
 package Fraktale;
 
-public class Fraktal {
+public abstract class Fraktal implements Runnable {
 
 	public int[][] pixels;
 	protected double xmin,xmax,ymax,ymin,scale;
