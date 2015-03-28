@@ -72,10 +72,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 			changex=((double)anSp.getValue())/100.0*Math.signum(changex);
 			changey=((double)anSp.getValue())/100.0*Math.signum(changey);
 			x+=changex;
-			if(Math.abs(x)>=(fr==fraktTyp.JuliaEXP?0.25:1)){
+			if(Math.abs(x)>=1/*(fr==fraktTyp.JuliaEXP?0.25:1)*/){
 				y+=changey;
 				changex*=-1;
-				if(Math.abs(y)>=(fr==fraktTyp.JuliaEXP?0.25:1))changey*=-1;
+				if(Math.abs(y)>=1/*(fr==fraktTyp.JuliaEXP?0.25:1)*/)changey*=-1;
 			}
 			if(fr==fraktTyp.Mandel)moveTo(new complex(x,y));
 			else changeJC(x,y); 
@@ -410,7 +410,7 @@ public void update2(){
 	else anSp.setVisible(false);
 	
 	if(c!=null)cJul.setText(c.toString());
-	//if(ex!=null)funT.setText(ex.toString());
+	if(ex!=null)funT.setText(ex.toString());
 	
 	scaleT.setText(""+scale);
 	ScrollT.setText(scroll.toString());
@@ -609,7 +609,7 @@ public void updateByT() {
 	}
 	catch (Exception e){
 		System.out.println(e.getMessage());
-		//funT.setText(ex.toString());
+		funT.setText(ex.toString());
 	}
 	
 	update();
