@@ -212,12 +212,14 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 			
 		funT=new TextField();
-		funT.setSize(100,20);
+		funT.setSize(150,20);
 		funT.setLocation(1000,5);
+		
 		this.add(funT);
 		thread2 = new Thread(frakt);
 		thread1.start();
 		thread2.start();
+		
 		update();
 	
 		
