@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import Util.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.JCheckBoxMenuItem;
@@ -21,11 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.Timer;
 
-import Fraktale.Fraktal;
-import Fraktale.Julia;
-import Fraktale.JuliaEXP;
-import Fraktale.Mandel;
-import Util.complex;
+import Fraktale.*;
 
 public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	private static final long serialVersionUID = 1L;
@@ -44,23 +41,25 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	int iteratio=100;
 	complex scroll=new complex(0,0);
 	double max=5;
-	TextField ScrollT,scaleT,cJul,tMax;
+	TextField ScrollT,scaleT,cJul,tMax,funT;
 	Font font = new Font("Arial",Font.BOLD,20);
 	double h = (double)sheight/(double)scale/2.0;
 	double w = (double)swidth/(double)scale/2.0;
 	int h0,w0;
 	long s0;
 	enum fraktTyp {
-		Mandel,Julia,JuliaEXP;
+		Mandel,Julia,JuliaEXP,JuliaFUN;
 	}
 	int fraktAk = 0;
-	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP};
+	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN};
 	complex c=new complex(0,0);;
 	
 	fraktTyp fr = fraktTyp.Mandel;
 	Fraktal frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	BufferedImage img;
 	Timer timer;
+	
+	Expression ex;
 	
 	public Timer rundgang = new Timer(5000,new ActionListener(){
 		double y=-1;
@@ -86,6 +85,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	public SimpleDrawing() {	
 		
+		ex = new Op(new Fun("exp",new Fun("sqr",new Variable("z"))),new Variable("c"),"+");
 		
 		//MENU TEST
 		menuBar = new JMenuBar();
@@ -210,6 +210,11 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		this.add(tMax);
 		
 			
+		funT=new TextField();
+		funT.setSize(100,20);
+		funT.setLocation(1000,5);
+		this.add(funT);
+		
 		update();
 	
 		
@@ -318,8 +323,8 @@ public void actionPerformed(ActionEvent e) {
 	else if(e.getActionCommand().equals("Fraktal ->")){
 		fraktAk++;
 		if(fraktAk>typen.length)fraktAk-=typen.length;
-		fr=typen[fraktAk%3];
-		if((fraktAk-1)%3==0){
+		fr=typen[fraktAk%typen.length];
+		if((fraktAk-1)%typen.length==0){
 		  c=scroll;
 		  scroll=new complex(0,0);
 		}
@@ -334,7 +339,7 @@ public void actionPerformed(ActionEvent e) {
 		fraktAk--;
 		if(fraktAk<0)fraktAk+=typen.length;
 		fr=typen[fraktAk%typen.length];
-		if((fraktAk-1)%3==0){
+		if((fraktAk-1)%typen.length==0){
 		  c=scroll;
 		  scroll=new complex(0,0);
 		}
@@ -389,6 +394,9 @@ public void update2(){
 	else if(fr==fraktTyp.JuliaEXP){
 		frakt = new JuliaEXP(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
+	else if(fr==fraktTyp.JuliaFUN){
+		frakt = new JuliaFUN(ex,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
+	}
 	else {
 		frakt = new Julia(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
@@ -398,8 +406,11 @@ public void update2(){
 	else cJul.setVisible(false);
 	if(rundgang.isRunning())anSp.setVisible(true);
 	else anSp.setVisible(false);
+	if(fr!=fraktTyp.JuliaFUN)funT.setVisible(false);
+	else funT.setVisible(true);
 	
 	if(c!=null)cJul.setText(c.toString());
+	if(ex!=null)funT.setText(ex.toString());
 	scaleT.setText(""+scale);
 	ScrollT.setText(scroll.toString());
 	tMax.setText(""+max);
@@ -585,12 +596,18 @@ public boolean isComp (String s){
 }
 public void updateByT() {
 		
-	String s=scaleT.getText().replace(',', '.'),x=ScrollT.getText().replace(',', '.'),j=cJul.getText().replace(',', '.'),m=tMax.getText().replace(',', '.');
+	String s=scaleT.getText().replace(',', '.'),x=ScrollT.getText().replace(',', '.'),j=cJul.getText().replace(',', '.'),m=tMax.getText().replace(',', '.'),f=funT.getText();
 	if(isInt(s))scale=Integer.valueOf(s);
 	if(isComp(x))scroll=getComp(x);
 	if(isComp(j))c=getComp(j);
 	if(isNum(m))max=Double.valueOf(m);
-	
+	try{
+		ParseState p = FnParse.parseFn(f);
+		ex=p.e;
+	}
+	catch(Exception e){
+		System.out.println(e.getMessage());
+	}
 	update();
 }
 
