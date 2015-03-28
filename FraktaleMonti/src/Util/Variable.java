@@ -19,7 +19,7 @@ public class Variable implements Expression {
 
 	public void setVar(complex x, String n) {
 		if (name.equals(n)){
-			value=x;
+			value=new complex(x.getR(),x.getI());
 		}
 	}
 
