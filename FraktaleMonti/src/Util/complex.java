@@ -33,6 +33,11 @@ public class complex {
 		i=this.getR()*c1.getI()+this.getI()*c1.getR();
 		return this;
 	}
+	public complex div (complex c1){
+		r=(this.getR()*c1.getR()+this.getI()*c1.getI())/(c1.getR()*c1.getR()+c1.getI()*c1.getI());
+		i=(this.getI()*c1.getR()-this.getR()*c1.getI())/(c1.getR()*c1.getR()+c1.getI()*c1.getI());
+		return this;
+	}
 	public complex add (complex c){
 		r=this.getR()+c.getR();
 		i=this.getI()+c.getI();
@@ -49,18 +54,18 @@ public class complex {
 	public double getAbs(){
 		return Math.sqrt(i*i+r*r);
 	}
-	public complex exp(){
-		double r0=Math.exp(r)*Math.cos(i);
-		double i0=Math.exp(r)*Math.sin(i);
-		r=r0;
-		i=i0;
-		return this;
-	}
 	public complex pow (int n){
 		double rn=Math.pow(getAbs(),n)*Math.cos(getAngle());
 		double in=Math.pow(getAbs(),n)*Math.sin(getAngle());
 		setR(rn);
 		setI(in);
+		return this;
+	}
+	public complex exp(){
+		double r0=Math.exp(r)*Math.cos(i);
+		double i0=Math.exp(r)*Math.sin(i);
+		r=r0;
+		i=i0;
 		return this;
 	}
 	/*public complex pow(double j) {
