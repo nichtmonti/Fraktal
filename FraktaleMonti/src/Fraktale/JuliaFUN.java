@@ -33,6 +33,8 @@ private complex c;
 		this.ex.setVar(c, "c");
 	}
 	public void update(){
+		if(ex.toString().equals("+ exp ^ z 2.0 c"))
+			System.out.println("bla");
 		for (double y=ymin;y<ymax;y+=1.0/(double)scale){
 			for(double x=xmin;x<xmax;x+=1.0/(double)scale){
 				complex t = new complex(x,y);

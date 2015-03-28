@@ -9,7 +9,7 @@ public class Starter {
 	static SimpleDrawing s;
 	public static void main(String[] args){
 		Keyboard key = new Keyboard();
-		Keyboard2 key2= new Keyboard2();
+		Keyboard2 key2 = new Keyboard2();
 		s= new SimpleDrawing();
 		s.setFocusable(true);
 		s.addKeyListener(key);
