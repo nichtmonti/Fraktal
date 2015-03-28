@@ -55,8 +55,8 @@ public class complex {
 		return Math.sqrt(i*i+r*r);
 	}
 	public complex pow (int n){
-		double rn=Math.pow(getAbs(),n)*Math.cos(getAngle());
-		double in=Math.pow(getAbs(),n)*Math.sin(getAngle());
+		double rn=Math.pow(getAbs(),n)*Math.cos(n*getAngle());
+		double in=Math.pow(getAbs(),n)*Math.sin(n*getAngle());
 		setR(rn);
 		setI(in);
 		return this;
