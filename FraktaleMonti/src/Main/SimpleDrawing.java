@@ -65,7 +65,6 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		double y=-1;
 		double x=-1;
 		double changex=0.05, changey=0.05;
-		public boolean flag=true;
 		public void actionPerformed(ActionEvent arg0) {
 			changex=((double)anSp.getValue())/100.0*Math.signum(changex);
 			changey=((double)anSp.getValue())/100.0*Math.signum(changey);
@@ -106,7 +105,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 		Button center =new Button("Zentrieren");
 		center.setSize(80, 30);
-		center.setLocation(900, 5);
+		center.setLocation(1100, 5);
 		center.addActionListener(this);
 		this.add(center);
 		
@@ -211,8 +210,8 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 			
 		funT=new TextField();
-		funT.setSize(100,20);
-		funT.setLocation(1000,5);
+		funT.setSize(200,20);
+		funT.setLocation(860,5);
 		this.add(funT);
 		
 		update();
@@ -406,8 +405,8 @@ public void update2(){
 	else cJul.setVisible(false);
 	if(rundgang.isRunning())anSp.setVisible(true);
 	else anSp.setVisible(false);
-	if(fr!=fraktTyp.JuliaFUN)funT.setVisible(false);
-	else funT.setVisible(true);
+	if(fr==fraktTyp.JuliaFUN||fr==fraktTyp.JuliaEXP)funT.setVisible(true);
+	else funT.setVisible(false);
 	
 	if(c!=null)cJul.setText(c.toString());
 	if(ex!=null)funT.setText(ex.toString());
