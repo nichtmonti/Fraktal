@@ -11,6 +11,9 @@ public class FnParse {
 		}
 	}
     public static ParseState parseFn(String s) throws Exception {
+    	if(s.equals("+ ^ z 2 c") || s.equals("+ c ^ z 2") || s.equals("+ 0 ^ z 2"))
+    		System.out.println("bla");
+    	
     	if(s.isEmpty())
     		return new ParseState(new Number(new complex(0,0)),"");
     	else if(isNum(s.split(" ")[0])){
