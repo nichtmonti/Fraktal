@@ -86,7 +86,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	
 	public SimpleDrawing() {	
-		
+				
 		ex = new Op(new Fun("exp",new Variable(new complex(0,0),"z")), new Variable(new complex(0,0),"c") , "+");
 		
 		
