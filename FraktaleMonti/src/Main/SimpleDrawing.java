@@ -108,7 +108,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		center.setLocation(1100, 5);
 		center.addActionListener(this);
 		this.add(center);
-		
+		//t
 
 		
 		Button zoomO =new Button("-");
