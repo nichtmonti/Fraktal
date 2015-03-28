@@ -54,9 +54,11 @@ public class complex {
 	public double getAbs(){
 		return Math.sqrt(i*i+r*r);
 	}
-	public complex pow(int n){
-		complex c0=this;
-		for(int i=0;i<n;i++)mult(c0);
+	public complex pow (int n){
+		double rn=Math.pow(getAbs(),n)*Math.cos(n*getAngle());
+		double in=Math.pow(getAbs(),n)*Math.sin(n*getAngle());
+		setR(rn);
+		setI(in);
 		return this;
 	}
 	public complex exp(){
