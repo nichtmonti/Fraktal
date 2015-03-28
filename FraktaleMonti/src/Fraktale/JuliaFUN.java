@@ -2,20 +2,23 @@ package Fraktale;
 import java.awt.Color;
 
 import Util.complex;
+import Util.*;
 
-
-public class JuliaEXP extends Fraktal{
+public class JuliaFUN extends Fraktal{
 private int iteration;
 private double max,xsize,ysize;
 private float[][] it;
+private Expression ex;
 private complex c;
-	public JuliaEXP(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale, complex c) {
+	public JuliaFUN(Expression ex, int it, double max, double xmin, double xmax, double ymin, double ymax,long scale, complex c) {
 		super(xmin, xmax, ymin, ymax, scale);
 		this.max=max;
 		this.iteration=it;
 		xsize=xmax-xmin;
 		ysize=ymax-ymin;
 		this.c=c;
+		this.ex=ex;
+		this.ex.setVar(c, "c");
 		this.it=new float[(int)(xsize*scale)+1][(int)(ysize*scale)+1];
 	}
 	
@@ -27,6 +30,7 @@ private complex c;
 	}
 	public void setC(complex c){
 		this.c=c;
+		this.ex.setVar(c, "c");
 	}
 	public void update(){
 		for (double y=ymin;y<ymax;y+=1.0/(double)scale){
@@ -45,9 +49,8 @@ private complex c;
 	public float calc(complex z){
 		int itera=0;
 		while(itera<this.iteration&&z.getAbs()<max){
-			//z.sqr();
-			complex a=z;
-			z.exp().add(c);
+			ex.setVar(z, "z");
+			z = ex.eval();
 			itera++;
 		}
 		if(itera!=this.iteration)
