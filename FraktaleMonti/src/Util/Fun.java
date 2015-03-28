@@ -2,7 +2,7 @@ package Util;
 
 public class Fun implements Expression {
 	enum FunType {
-		exp,sqr,abs,getr,geti
+		exp, neg,sqr,abs,getr,geti
 	}
 	public FunType fun;
 	public Expression expr;
@@ -23,6 +23,9 @@ public class Fun implements Expression {
 		else if(name.equals("geti")){
 			fun=FunType.geti;
 		}
+		else if(name.equals("~")){
+			fun=FunType.neg;
+		}
 		else {
 			System.out.println("Error");
 		}
@@ -30,6 +33,7 @@ public class Fun implements Expression {
 	}
 	
 	public String toString(){
+		if (fun==FunType.neg) return "~" + " " + expr.toString();
 		return fun.toString()+" "+expr.toString();
 	}
   
@@ -45,6 +49,8 @@ public class Fun implements Expression {
 	 			return (new complex(expr.eval().getR(),0));  
 	 		case geti:
 	 			return (new complex(expr.eval().getI(),0));  
+	 		case neg:
+	 			return (new complex(0,0).sub(expr.eval()));
 	 		default:
 	 			System.out.println("Error");
 	 			return new complex(0,0);

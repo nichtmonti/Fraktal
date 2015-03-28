@@ -24,7 +24,7 @@ public class FnParse {
     		ParseState p2= parseFn(p.rest);
     		return new ParseState(new Op(p.e, p2.e,s.split(" ")[0]), p2.rest);
     	}
-    	else if(s.split(" ")[0].matches("^(exp|sqr|abs|getr|geti)$")){
+    	else if(s.split(" ")[0].matches("^(exp|sqr|abs|getr|geti|[~])$")){
     		ParseState p = parseFn(s.substring(s.split(" ")[0].length()).trim());
     		return new ParseState(new Fun(s.split(" ")[0],p.e),p.rest);
     	}
