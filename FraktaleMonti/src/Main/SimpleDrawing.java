@@ -23,9 +23,10 @@ import javax.swing.Timer;
 
 import Fraktale.Fraktal;
 import Fraktale.Julia;
-import Fraktale.JuliaEXP;
+import Fraktale.JuliaFUN;
 import Fraktale.Mandel;
 import Util.complex;
+import Util.*;
 
 public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	private static final long serialVersionUID = 1L;
@@ -44,7 +45,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	int iteratio=100;
 	complex scroll=new complex(0,0);
 	double max=5;
-	TextField ScrollT,scaleT,cJul,tMax;
+	TextField ScrollT,scaleT,cJul,tMax,funT;
 	Font font = new Font("Arial",Font.BOLD,20);
 	double h = (double)sheight/(double)scale/2.0;
 	double w = (double)swidth/(double)scale/2.0;
@@ -61,7 +62,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	Fraktal frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	BufferedImage img;
 	Timer timer;
-	
+	Expression ex;
 	public Timer rundgang = new Timer(5000,new ActionListener(){
 		double y=-1;
 		double x=-1;
@@ -71,10 +72,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 			changex=((double)anSp.getValue())/100.0*Math.signum(changex);
 			changey=((double)anSp.getValue())/100.0*Math.signum(changey);
 			x+=changex;
-			if(Math.abs(x)>=(fr==fraktTyp.JuliaEXP?0.25:1)){
+			if(Math.abs(x)>=1/*(fr==fraktTyp.JuliaEXP?0.25:1)*/){
 				y+=changey;
 				changex*=-1;
-				if(Math.abs(y)>=(fr==fraktTyp.JuliaEXP?0.25:1))changey*=-1;
+				if(Math.abs(y)>=1/*(fr==fraktTyp.JuliaEXP?0.25:1)*/)changey*=-1;
 			}
 			if(fr==fraktTyp.Mandel)moveTo(new complex(x,y));
 			else changeJC(x,y); 
@@ -85,6 +86,8 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	
 	public SimpleDrawing() {	
+				
+		ex = new Op(new Fun("exp",new Variable(new complex(0,0),"z")), new Variable(new complex(0,0),"c") , "+");
 		
 		
 		//MENU TEST
@@ -199,6 +202,11 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		cJul.setLocation(705, 5);
 		this.add(cJul);
 
+		funT=new TextField();
+		funT.setSize(150,20);
+		funT.setLocation(1000,5);
+		this.add(funT);
+		
 		anSp = new Scrollbar(Scrollbar.HORIZONTAL,5,1,1,100);
 		anSp.setSize(150,20);
 		anSp.setLocation(705, 25);
@@ -387,7 +395,7 @@ public void update2(){
 		frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	}
 	else if(fr==fraktTyp.JuliaEXP){
-		frakt = new JuliaEXP(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
+		frakt = new JuliaFUN(ex,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
 	else {
 		frakt = new Julia(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
@@ -396,10 +404,14 @@ public void update2(){
 	img = getImageFromArray(frakt.pixels,swidth,sheight);
 	if(fr!=fraktTyp.Mandel)cJul.setVisible(true);
 	else cJul.setVisible(false);
+	if(fr!=fraktTyp.JuliaEXP)funT.setVisible(false);
+	else funT.setVisible(true);
 	if(rundgang.isRunning())anSp.setVisible(true);
 	else anSp.setVisible(false);
 	
 	if(c!=null)cJul.setText(c.toString());
+	if(ex!=null)funT.setText(ex.toString());
+	
 	scaleT.setText(""+scale);
 	ScrollT.setText(scroll.toString());
 	tMax.setText(""+max);
@@ -585,11 +597,20 @@ public boolean isComp (String s){
 }
 public void updateByT() {
 		
-	String s=scaleT.getText().replace(',', '.'),x=ScrollT.getText().replace(',', '.'),j=cJul.getText().replace(',', '.'),m=tMax.getText().replace(',', '.');
+	String s=scaleT.getText().replace(',', '.'),x=ScrollT.getText().replace(',', '.'),j=cJul.getText().replace(',', '.'),m=tMax.getText().replace(',', '.'), f=funT.getText();
 	if(isInt(s))scale=Integer.valueOf(s);
 	if(isComp(x))scroll=getComp(x);
 	if(isComp(j))c=getComp(j);
 	if(isNum(m))max=Double.valueOf(m);
+	
+	try {
+		ParseState p = FnParse.parseFn(f);
+		ex = p.e;
+	}
+	catch (Exception e){
+		System.out.println(e.getMessage());
+		funT.setText(ex.toString());
+	}
 	
 	update();
 }

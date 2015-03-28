@@ -1,12 +1,12 @@
 package Main;
-
+import Fraktale.*;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
+import Util.*;
 
 public class Debug {
 	static double xscroll=-1.402;
@@ -22,17 +22,13 @@ public class Debug {
 	static double w=(1.0*swidth)/(2.0*scale);
 	static double h=(1.0*sheight)/(2.0*scale);
 	
-	static Fraktal frak = new Mandel(10000,100,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+	//static Fraktal frak = new Mandel(10000,100,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
 	public static void main(String[] args) {
-		frak.update();
-		Image img = getImageFromArray(frak.pixels,swidth,sheight);
-		
-		try {
-		    BufferedImage bi = (BufferedImage) img;
-		    File outputfile = new File("saved.png");
-		    ImageIO.write(bi, "png", outputfile);
-		} catch (IOException e) {}
+		for(int i=0;i<8;i++)new complex(1,1).pow(i).print();
 	}
+	
+	
+	
 	public static Image getImageFromArray(int[][] pixels, int width, int height) {
         BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
         //System.out.println(pixels.length + " " + pixels[0].length);
