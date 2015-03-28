@@ -50,6 +50,14 @@ public class Keyboard2 implements KeyListener{
 					d.rundgang.stop();
 				}
 			}
+			else if(e.getKeyCode()==36)
+			{
+				d.riseIt();
+			}
+			else if(e.getKeyCode()==35)
+			{
+				d.lowerIt();
+			}
 			else System.out.println(e.getKeyCode());
 			
 			lleft=System.currentTimeMillis();

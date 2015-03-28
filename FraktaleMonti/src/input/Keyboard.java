@@ -55,11 +55,11 @@ public class Keyboard implements KeyListener{
 			{
 				d.updateByT();
 			}
-			else if(e.getKeyCode()==107||e.getKeyCode()==521)
+			else if(e.getKeyCode()==107||e.getKeyCode()==521||e.getKeyCode()==36)
 			{
 				d.riseIt();
 			}
-			else if(e.getKeyCode()==109||e.getKeyCode()==45)
+			else if(e.getKeyCode()==109||e.getKeyCode()==45||e.getKeyCode()==35)
 			{
 				d.lowerIt();
 			}
