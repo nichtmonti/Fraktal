@@ -12,7 +12,7 @@ public class Number implements Expression {
 	}
 
 	public String toString(){
-		return val.toString();
+		return "+ " + val.getR() + " " + val.getI() + "i"; 
 	}
 	
 	public void setVar(complex c, String name){}
