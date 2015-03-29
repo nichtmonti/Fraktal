@@ -11,7 +11,7 @@ public class Variable implements Expression {
     
     public Variable(complex x, String n){
     	name=n;
-    	value=new complex(x.getR(), x.getI());
+    	value=x;
     }
     
     public String toString(){
@@ -19,12 +19,12 @@ public class Variable implements Expression {
     }
     
 	public complex eval() {
-		return value;
+		return new complex(value.getR(), value.getI());
 	}
 
 	public void setVar(complex x, String n) {
 		if (name.equals(n)){
-			value=new complex(x.getR(),x.getI());
+			value=x;
 		}
 	}
 

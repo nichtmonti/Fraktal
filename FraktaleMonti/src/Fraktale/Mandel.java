@@ -5,8 +5,8 @@ import Util.complex;
 
 
 public class Mandel extends Fraktal implements Runnable{
-private int iteration;
-private double max,xsize,ysize;
+public int iteration;
+public double max,xsize,ysize;
 private float[][] it;
 private ArbeiterKlasse arbeiter = new ArbeiterKlasse();
 
@@ -34,6 +34,73 @@ private ArbeiterKlasse arbeiter = new ArbeiterKlasse();
 			}
 		}
 		render();
+	}
+	public void move (dir d, int pixel){
+		if(d==dir.up){
+			ymin+=pixel/scale;
+			for(int x=0;x<xsize*scale;x++){
+				for(int y=0;y<ysize*scale;y++){
+					if(isthere(pixels,x,y+pixel))pixels[x][y]=pixels[x][y+pixel];
+					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),(double)y/scale+ymin), iteration, max));
+				}
+			}
+		}
+		if(d==dir.down){
+			ymin-=pixel/scale;
+			for(int x=0;x<xsize*scale;x++){
+				for(int y=0;y<ysize*scale;y++){
+					if(isthere(pixels,x,y-pixel))pixels[x][y]=pixels[x][y-pixel];
+					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),(double)y/scale+ymin), iteration, max));
+				}
+			}
+		}
+		if(d==dir.left){
+			xmin-=pixel/scale;
+			for(int x=0;x<xsize*scale;x++){
+				for(int y=0;y<ysize*scale;y++){
+					if(isthere(pixels,x-pixel,y))pixels[x][y]=pixels[x-pixel][y];
+					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),(double)y/scale+ymin), iteration, max));
+				}
+			}
+		}
+		if(d==dir.right){
+			ymin+=pixel/scale;
+			for(int x=0;x<xsize*scale;x++){
+				for(int y=0;y<ysize*scale;y++){
+					if(isthere(pixels,x+pixel,y))pixels[x][y]=pixels[x+pixel][y];
+					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),(double)y/scale+ymin), iteration, max));
+				}
+			}
+		}
+		/*for(int x=0;x<xsize*scale;x++){
+			for(int y=0;y<ysize*scale;y++){
+				if(d==dir.up){
+					if(isthere(pixels,x,y+pixel))pixels[x][y]=pixels[x][y+pixel];
+					else pixels[x][y]=col(arbeiter.calc(new complex((((double)x)/scale+xmin),(double)y/scale+ymin), iteration, max));
+				}
+				else if(d==dir.down){
+					if(isthere(pixels,x,y-pixel))pixels[x][y]=pixels[x][y-pixel];
+					else pixels[x][y]=col(arbeiter.calc(new complex((((double)x)/scale+xmin),(double)y/scale+ymin), iteration, max));
+				}
+				else if(d==dir.left){
+					if(isthere(pixels,x+pixel,y))pixels[x][y]=pixels[x+pixel][y];	
+					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),((double)y)/scale+ymin), iteration, max));
+				}
+				else if(d==dir.right){
+					if(isthere(pixels,x-pixel,y))pixels[x][y]=pixels[x-pixel][y];	
+					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),((double)y)/scale+ymin), iteration, max));
+				}
+			}
+		}*/
+	}
+	private boolean isthere (int[][] a,int i, int j){
+		try{
+			int x=a[i][j];
+		}
+		catch(Exception e){
+			return false;
+		}
+		return true;
 	}
 	public int col(float x){
 		if (x==this.iteration)return 0;

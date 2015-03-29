@@ -3,6 +3,8 @@ package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import Fraktale.Fraktal;
+import Fraktale.Mandel;
 import Main.SimpleDrawing;
 import Main.Starter;
 

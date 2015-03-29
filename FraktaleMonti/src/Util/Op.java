@@ -51,7 +51,7 @@ public class Op implements Expression{
 			case Div:
 				return a.eval().div(b.eval());
 			case Pow:
-				return a.eval().pow((int)b.eval().getAbs());
+				return a.eval().pow((int)Math.round(b.eval().getAbs()));
 			default:
 				System.out.println("Error");
 				return new complex(0,0);

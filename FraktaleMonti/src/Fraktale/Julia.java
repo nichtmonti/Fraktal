@@ -6,10 +6,12 @@ import Util.complex;
 
 
 public class Julia extends Fraktal implements Runnable{
-private int iteration;
-private double max,xsize,ysize;
+public int iteration;
+double max;
+private double xsize;
+private double ysize;
 private float[][] it;
-private complex c;
+complex c;
 private ArbeiterKlasse arbeiter = new ArbeiterKlasse();
 
 	public Julia(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale, complex c) {
