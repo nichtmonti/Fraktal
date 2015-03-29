@@ -52,14 +52,16 @@ public class MCFrak extends Fraktal implements Runnable{
 	public void update(){
 		for(int i=0;i<fraks.length;i++){
 			fraks[i].update();
-			
 			for(int y=0;y<fraks[i].pixels.length;y++){
-				for(int x=0;y<fraks[i].pixels[y].length;x++){
-					pixels[i%2==0?x:x+fraks[i].pixels[y].length][i/2==0?y:y+fraks[i].pixels.length]=fraks[i].pixels[y][x];
+				for(int x=0;x<fraks[i].pixels[y].length;x++){
+					if(i==0)pixels[y][x]=fraks[i].pixels[y][x];
+					if(i==1)pixels[y+fraks[i].pixels.length-1][x]=fraks[i].pixels[y][x];
+					if(i==2)pixels[y][x+fraks[i].pixels[y].length-1]=fraks[i].pixels[y][x];
+					if(i==3)pixels[y+fraks[i].pixels.length-1][x+fraks[i].pixels[y].length-1]=fraks[i].pixels[y][x];
 				}
 			}
 		}
-		//for(int y=0;y<pixels.length;y++)for(int x=0;x<pixels[y].length;x++)pixels[y][x]=0x99ff55;
+		for(int y=0;y<pixels.length;y++)for(int x=0;x<pixels[y].length;x++)if((Object)pixels[y][x]==null)pixels[y][x]=0x99ff55;
 		
 	}
 
