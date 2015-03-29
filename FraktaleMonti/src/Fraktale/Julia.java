@@ -1,14 +1,19 @@
 package Fraktale;
 
 import java.awt.Color;
+
 import Util.complex;
 
 
-public class Julia extends Fraktal{
-private int iteration;
-private double max,xsize,ysize;
+public class Julia extends Fraktal implements Runnable{
+public int iteration;
+double max;
+private double xsize;
+private double ysize;
 private float[][] it;
-private complex c;
+complex c;
+private ArbeiterKlasse arbeiter = new ArbeiterKlasse();
+
 	public Julia(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale, complex c) {
 		super(xmin, xmax, ymin, ymax, scale);
 		this.max=max;
@@ -32,7 +37,7 @@ private complex c;
 		for (double y=ymin;y<ymax;y+=1.0/(double)scale){
 			for(double x=xmin;x<xmax;x+=1.0/(double)scale){
 				complex t = new complex(x,y);
-				it[(int)((x-xmin)*scale)][(int)((y-ymin)*scale)]=calc(t);
+				it[(int)((x-xmin)*scale)][(int)((y-ymin)*scale)]=arbeiter.calc(t, iteration, max, c);
 			}
 		}
 		render();
@@ -42,14 +47,8 @@ private complex c;
 		return Color.HSBtoRGB((float)((float)x/(float)this.iteration), 1.0f, 0.8f);
 		//return (x==iteration)?0xffffff:0x000000;
 	}
-	public float calc(complex z){
-		int itera=0;
-		while(itera<this.iteration&&z.getAbs()<max){
-			z.sqr().add(c);
-			itera++;
-		}
-		if(itera!=this.iteration)
-			return (float)(itera-Math.log(Math.log(z.getAbs())/Math.log(max))/Math.log(2));
-		return itera;
+
+	public void run() {
+		update();
 	}
 }
