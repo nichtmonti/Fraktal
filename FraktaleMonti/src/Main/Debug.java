@@ -4,7 +4,9 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import Fraktale.*;
+
 import javax.imageio.ImageIO;
 
 
@@ -22,16 +24,23 @@ public class Debug {
 	static double w=(1.0*swidth)/(2.0*scale);
 	static double h=(1.0*sheight)/(2.0*scale);
 	
-	static Fraktal frak = new Mandel(10000,100,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+	static Fraktal frak = new Buddhabrot(1000000,10000,100,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+	static Fraktal frak2 = new MCFrak(frak);
 	public static void main(String[] args) {
+		long time;
+		time=System.currentTimeMillis();
 		frak.update();
-		Image img = getImageFromArray(frak.pixels,swidth,sheight);
+		long t1 = System.currentTimeMillis()-time;
+		time=System.currentTimeMillis();
+		frak2.update();
+		long t2 = System.currentTimeMillis()-time;
+		System.out.println(((float)t1-t2)/(float)t1*100.0f);
 		
-		try {
+		/*try {
 		    BufferedImage bi = (BufferedImage) img;
 		    File outputfile = new File("saved.png");
 		    ImageIO.write(bi, "png", outputfile);
-		} catch (IOException e) {}
+		} catch (IOException e) {}*/
 	}
 	public static Image getImageFromArray(int[][] pixels, int width, int height) {
         BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
