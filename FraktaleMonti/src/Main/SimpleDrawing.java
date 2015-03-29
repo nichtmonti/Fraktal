@@ -436,6 +436,7 @@ public void update2(){
 	w = (double)swidth/(double)scale/2.0;
 	if(fr==fraktTyp.Mandel){
 		frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
+		frakt=new MCFrak(frakt);
 	}
 	else if(fr==fraktTyp.JuliaEXP){
 		frakt = new JuliaEXP(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
@@ -444,12 +445,11 @@ public void update2(){
 		frakt = new JuliaFUN(ex,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
 	else if(fr==fraktTyp.Buddha){
-		frakt = new Buddhabrot(bc,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
+		frakt = new MCFrak(new Buddhabrot(bc,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale));
 	}
 	else {
 		frakt = new Julia(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
-	frakt=new MCFrak(frakt);
 	frakt.update();
 	update3();
 }

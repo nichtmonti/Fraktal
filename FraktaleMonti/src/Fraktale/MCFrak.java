@@ -63,7 +63,7 @@ public class MCFrak extends Fraktal implements Runnable{
 				double xmax=i%2!=0?man.xmax:(man.xmax+man.xmin)/2;
 				double ymin=i/2==0?man.ymin:(man.ymin+man.ymax)/2;
 				double ymax=i/2!=0?man.ymax:(man.ymin+man.ymax)/2;
-				fraks[i]=new Buddhabrot(man.nc,man.iteration,man.max,xmin,xmax, ymin,ymax,(long) man.scale);
+				fraks[i]=new Buddhabrot(man.nc/4,man.iteration,man.max,xmin,xmax, ymin,ymax,(long) man.scale);
 				threads[i]=new Thread(fraks[i]);
 			}
 		}
