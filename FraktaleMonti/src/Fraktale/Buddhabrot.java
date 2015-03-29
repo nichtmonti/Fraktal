@@ -61,8 +61,10 @@ public class Buddhabrot extends Fraktal{
 		}
 		
 		public int col(int x){
-			if (x==this.iteration)return 0;
-			return Color.HSBtoRGB((float)((float)x/(float)this.mn), 1.0f, 0.8f);
+			if (x>(float)this.iteration)return 0;
+			if(x<Math.log(this.iteration)*0.1f)return 0;
+			//return Color.HSBtoRGB((float)((float)x/(float)this.mn+0.3f)%1.0f, 1.0f, 1f);
 			//return (x==iteration)?0xffffff:0x000000;
+			return 0x10000*Math.round(0xff*(float)x/(float)iteration)+0x100*Math.round(0xff*(float)x/(float)iteration)+x/iteration;
 		}
 }
