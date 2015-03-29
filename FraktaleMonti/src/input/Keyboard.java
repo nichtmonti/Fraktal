@@ -3,8 +3,6 @@ package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import Fraktale.Fraktal;
-import Fraktale.Mandel;
 import Main.SimpleDrawing;
 import Main.Starter;
 
@@ -57,11 +55,11 @@ public class Keyboard implements KeyListener{
 			{
 				d.updateByT();
 			}
-			else if(e.getKeyCode()==107||e.getKeyCode()==521||e.getKeyCode()==36)
+			else if(e.getKeyCode()==107||e.getKeyCode()==521)
 			{
 				d.riseIt();
 			}
-			else if(e.getKeyCode()==109||e.getKeyCode()==45||e.getKeyCode()==35)
+			else if(e.getKeyCode()==109||e.getKeyCode()==45)
 			{
 				d.lowerIt();
 			}
