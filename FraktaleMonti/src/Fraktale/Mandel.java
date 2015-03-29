@@ -4,12 +4,12 @@ import java.awt.Color;
 import Util.complex;
 
 
-public class Mandel extends Fraktal implements Runnable{
-public int iteration;
-public double max,xsize,ysize;
+public class Mandel extends Fraktal{
+int iteration;
+double max;
+private double xsize;
+private double ysize;
 private float[][] it;
-private ArbeiterKlasse arbeiter = new ArbeiterKlasse();
-
 	public Mandel(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale) {
 		super(xmin, xmax, ymin, ymax, scale);
 		this.max=max;
@@ -30,85 +30,26 @@ private ArbeiterKlasse arbeiter = new ArbeiterKlasse();
 		for (double y=ymin;y<ymax;y+=1.0/(double)scale){
 			for(double x=xmin;x<xmax;x+=1.0/(double)scale){
 				complex t = new complex(x,y);
-				it[(int)((x-xmin)*scale)][(int)((y-ymin)*scale)]=arbeiter.calc(t, iteration, max);
+				it[(int)((x-xmin)*scale)][(int)((y-ymin)*scale)]=calc(t);
 			}
 		}
 		render();
-	}
-	public void move (dir d, int pixel){
-		if(d==dir.up){
-			ymin+=pixel/scale;
-			for(int x=0;x<xsize*scale;x++){
-				for(int y=0;y<ysize*scale;y++){
-					if(isthere(pixels,x,y+pixel))pixels[x][y]=pixels[x][y+pixel];
-					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),(double)y/scale+ymin), iteration, max));
-				}
-			}
-		}
-		if(d==dir.down){
-			ymin-=pixel/scale;
-			for(int x=0;x<xsize*scale;x++){
-				for(int y=0;y<ysize*scale;y++){
-					if(isthere(pixels,x,y-pixel))pixels[x][y]=pixels[x][y-pixel];
-					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),(double)y/scale+ymin), iteration, max));
-				}
-			}
-		}
-		if(d==dir.left){
-			xmin-=pixel/scale;
-			for(int x=0;x<xsize*scale;x++){
-				for(int y=0;y<ysize*scale;y++){
-					if(isthere(pixels,x-pixel,y))pixels[x][y]=pixels[x-pixel][y];
-					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),(double)y/scale+ymin), iteration, max));
-				}
-			}
-		}
-		if(d==dir.right){
-			ymin+=pixel/scale;
-			for(int x=0;x<xsize*scale;x++){
-				for(int y=0;y<ysize*scale;y++){
-					if(isthere(pixels,x+pixel,y))pixels[x][y]=pixels[x+pixel][y];
-					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),(double)y/scale+ymin), iteration, max));
-				}
-			}
-		}
-		/*for(int x=0;x<xsize*scale;x++){
-			for(int y=0;y<ysize*scale;y++){
-				if(d==dir.up){
-					if(isthere(pixels,x,y+pixel))pixels[x][y]=pixels[x][y+pixel];
-					else pixels[x][y]=col(arbeiter.calc(new complex((((double)x)/scale+xmin),(double)y/scale+ymin), iteration, max));
-				}
-				else if(d==dir.down){
-					if(isthere(pixels,x,y-pixel))pixels[x][y]=pixels[x][y-pixel];
-					else pixels[x][y]=col(arbeiter.calc(new complex((((double)x)/scale+xmin),(double)y/scale+ymin), iteration, max));
-				}
-				else if(d==dir.left){
-					if(isthere(pixels,x+pixel,y))pixels[x][y]=pixels[x+pixel][y];	
-					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),((double)y)/scale+ymin), iteration, max));
-				}
-				else if(d==dir.right){
-					if(isthere(pixels,x-pixel,y))pixels[x][y]=pixels[x-pixel][y];	
-					else pixels[x][y]=col(arbeiter.calc(new complex(((double)x/scale+xmin),((double)y)/scale+ymin), iteration, max));
-				}
-			}
-		}*/
-	}
-	private boolean isthere (int[][] a,int i, int j){
-		try{
-			int x=a[i][j];
-		}
-		catch(Exception e){
-			return false;
-		}
-		return true;
 	}
 	public int col(float x){
 		if (x==this.iteration)return 0;
 		return Color.HSBtoRGB((float)((float)x/(float)this.iteration), 1.0f, 0.8f);
 		//return (x==iteration)?0xffffff:0x000000;
 	}
-
-	public void run() {
-		update();
+	public float calc(complex c){
+		int itera=0;
+		complex c0=new complex(c.getR(),c.getI());
+		while(itera<this.iteration&&c.getAbs()<max){
+			c.sqr();
+			c.add(c0);
+			itera++;
+		}
+		if(itera!=this.iteration)
+			return (float)(itera-Math.log(Math.log(c.getAbs())/Math.log(max))/Math.log(2));
+		return itera;
 	}
 }

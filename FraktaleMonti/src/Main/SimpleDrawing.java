@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import Util.*;
 
@@ -43,18 +45,18 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	int iteratio=100;
 	complex scroll=new complex(0,0);
 	double max=5;
-	TextField ScrollT,scaleT,cJul,tMax,funT;
+	TextField ScrollT,scaleT,cJul,tMax,funT, buddhaT;
 	Font font = new Font("Arial",Font.BOLD,20);
 	double h = (double)sheight/(double)scale/2.0;
 	double w = (double)swidth/(double)scale/2.0;
 	int h0,w0;
 	long s0;
 	enum fraktTyp {
-		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN;
+		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha;
 	}
 	int fraktAk = 0;
-	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN, fraktTyp.MCFUN};
-	complex c=new complex(0,0);;
+	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN, fraktTyp.MCFUN,fraktTyp.Buddha};
+	complex c=new complex(0,0);
 	
 	fraktTyp fr = fraktTyp.Mandel;
 	Fraktal frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
@@ -63,6 +65,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	Expression ex;
 	Thread thread2;
+	double[][][] matrices;
+	vector2d[] vectors;
+	vector2d[] transvec;
+	int bc=1000000;
 	
 	public Timer rundgang = new Timer(5000,new ActionListener(){
 		double y=-1;
@@ -87,6 +93,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	
 	
 	public SimpleDrawing() {	
+		
+		matrices = new double[][][]{{{0,0},{0,0}},{{0.85,0.04},{-0.04,0.85}},{{0.20,-0.26},{0.23,0.22}},{{-0.15,0.28},{0.26,0.24}}};
+		transvec = new vector2d[]{new vector2d(0,0),new vector2d(0,1.6),new vector2d(0,1.6), new vector2d(0,0.44)};
+		vectors=transvec;
 		
 		ex = new Op(new Fun("exp",new Fun("sqr",new Variable("z"))),new Variable("c"),"+");
 		
@@ -215,9 +225,14 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 			
 		funT=new TextField();
 		funT.setSize(150,20);
-		funT.setLocation(1000,5);
-		
+		funT.setLocation(1000,5);		
 		this.add(funT);
+		
+		buddhaT=new TextField();
+		buddhaT.setSize(150,20);
+		buddhaT.setLocation(1000,5);		
+		this.add(buddhaT);
+		
 		thread2 = new Thread(frakt);
 		thread1.start();
 		thread2.start();
@@ -428,12 +443,13 @@ public void update2(){
 	else if(fr==fraktTyp.JuliaFUN){
 		frakt = new JuliaFUN(ex,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
-	else if(fr==fraktTyp.MCFUN){
-		frakt = new MCFrak(new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale));
+	else if(fr==fraktTyp.Buddha){
+		frakt = new Buddhabrot(bc,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	}
 	else {
 		frakt = new Julia(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
+	frakt=new MCFrak(frakt);
 	frakt.update();
 	update3();
 }
@@ -445,8 +461,10 @@ public void update3(){
 	else anSp.setVisible(false);
 	if(fr!=fraktTyp.JuliaFUN)funT.setVisible(false);
 	else funT.setVisible(true);
-	
+	if(fr!=fraktTyp.Buddha)buddhaT.setVisible(false);
+	else buddhaT.setVisible(true);
 	if(c!=null)cJul.setText(c.toString());
+	buddhaT.setText(new Integer(bc).toString());
 	if(ex!=null)funT.setText(ex.toString());
 	scaleT.setText(""+scale);
 	ScrollT.setText(scroll.toString());
@@ -634,11 +652,12 @@ public boolean isComp (String s){
 }
 public void updateByT() {
 		
-	String s=scaleT.getText().replace(',', '.'),x=ScrollT.getText().replace(',', '.'),j=cJul.getText().replace(',', '.'),m=tMax.getText().replace(',', '.'),f=funT.getText();
+	String b=buddhaT.getText(),s=scaleT.getText().replace(',', '.'),x=ScrollT.getText().replace(',', '.'),j=cJul.getText().replace(',', '.'),m=tMax.getText().replace(',', '.'),f=funT.getText();
 	if(isInt(s))scale=Integer.valueOf(s);
 	if(isComp(x))scroll=getComp(x);
 	if(isComp(j))c=getComp(j);
 	if(isNum(m))max=Double.valueOf(m);
+	if(isInt(b))bc=Integer.valueOf(b);
 	try{
 		ParseState p = FnParse.parseFn(f);
 		ex=p.e;
@@ -646,6 +665,7 @@ public void updateByT() {
 	catch(Exception e){
 		System.out.println(e.getMessage());
 	}
+	
 	update();
 }
 

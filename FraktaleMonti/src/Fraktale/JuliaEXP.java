@@ -5,10 +5,12 @@ import Util.complex;
 
 
 public class JuliaEXP extends Fraktal{
-private int iteration;
-private double max,xsize,ysize;
+int iteration;
+double max;
+private double xsize;
+private double ysize;
 private float[][] it;
-private complex c;
+complex c;
 	public JuliaEXP(int it, double max, double xmin, double xmax, double ymin, double ymax,long scale, complex c) {
 		super(xmin, xmax, ymin, ymax, scale);
 		this.max=max;
