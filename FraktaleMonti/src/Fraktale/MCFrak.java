@@ -45,8 +45,20 @@ public class MCFrak extends Fraktal implements Runnable{
 				threads[i]=new Thread(fraks[i]);
 			}
 		}
+		if(frak instanceof JuliaEXP){
+			JuliaEXP man = (JuliaEXP)frak;
+			for(int i=0;i<4;i++){
+				double xmin=i%2==0?man.xmin:(man.xmin+man.xmax)/2;
+				double xmax=i%2!=0?man.xmax:(man.xmax+man.xmin)/2;
+				double ymin=i/2==0?man.ymin:(man.ymin+man.ymax)/2;
+				double ymax=i/2!=0?man.ymax:(man.ymin+man.ymax)/2;
+				fraks[i]=new Julia(man.iteration,man.max,xmin,xmax, ymin,ymax,man.scale,man.c);
+				threads[i]=new Thread(fraks[i]);
+			}
+		}
 		for(int i=0;i<threads.length;i++){
-			threads[i].start();
+			if(threads[i]!=null)threads[i].start();
+			else System.out.println(frak.getClass());
 		}
 	}
 	public void update(){
