@@ -62,8 +62,9 @@ public class complex {
 		return this;
 	}
 	public complex exp(){
-		double r0=Math.exp(r)*Math.cos(i);
-		double i0=Math.exp(r)*Math.sin(i);
+		double bet =Math.exp(r);
+		double r0=bet*Math.cos(i);
+		double i0=bet*Math.sin(i);
 		r=r0;
 		i=i0;
 		return this;

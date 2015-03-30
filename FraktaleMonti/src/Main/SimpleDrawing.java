@@ -29,6 +29,7 @@ import Fraktale.JuliaEXP;
 import Fraktale.JuliaFUN;
 import Fraktale.MCFrak;
 import Fraktale.Mandel;
+import Fraktale.Sierpinski;
 import Util.Expression;
 import Util.FnParse;
 import Util.Fun;
@@ -64,10 +65,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	long s0;
 
 	enum fraktTyp {
-		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha;
+		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha,Sierpinski;
 	}
 	int fraktAk = 0;
-	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN,fraktTyp.Buddha};
+	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN,fraktTyp.Buddha, fraktTyp.Sierpinski};
 	complex c=new complex(0,0);
 	
 	fraktTyp fr = fraktTyp.Mandel;
@@ -483,6 +484,9 @@ public void update2(){
 	}
 	else if(fr==fraktTyp.Buddha){
 		frakt = new MCFrak(new Buddhabrot(bc,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale));
+	}
+	else if(fr==fraktTyp.Sierpinski){
+		frakt = new Sierpinski(scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	}
 	else {
 		frakt = new Julia(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);

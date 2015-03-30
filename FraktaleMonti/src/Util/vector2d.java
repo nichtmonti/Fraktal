@@ -13,6 +13,10 @@ public class vector2d {
 		r=c.getR();
 		i=c.getI();
 	}
+	public vector2d(double[] ds) {
+		this.r=ds[0];
+		this.i=ds[1];
+	}
 	public double getI (){
 		return i;
 	}
