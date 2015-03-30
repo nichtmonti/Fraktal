@@ -450,7 +450,7 @@ public void save(){
 	    genSFrakt();
 	    ImageIO.write(img, "png", outputfile);
 	    System.out.println("done saving at " + outputfile.getAbsolutePath() );
-	   // update();
+	    update();
 	 
 	} catch (Exception p) {}
 }
