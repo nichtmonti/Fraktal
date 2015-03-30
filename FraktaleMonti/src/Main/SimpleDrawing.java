@@ -309,7 +309,7 @@ public void center()
 	
 	else if (fr == fraktTyp.Farn)
 	{
-		scale=155;
+		scale=42;
 		scroll.setI(6.51632);
 		scroll.setR(0.68536);
 		
