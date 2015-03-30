@@ -2,12 +2,12 @@ package Main;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import Fraktale.*;
-
-import javax.imageio.ImageIO;
+import Fraktale.Buddhabrot;
+import Fraktale.Fraktal;
+import Fraktale.MCFrak;
+import Util.linearFun;
+import Util.vector2d;
 
 
 public class Debug {
@@ -26,21 +26,13 @@ public class Debug {
 	
 	static Fraktal frak = new Buddhabrot(1000000,10000,100,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
 	static Fraktal frak2 = new MCFrak(frak);
+	static linearFun lin = new linearFun("{{0.5,0},{0,0.5}}","{{5,0}}");
 	public static void main(String[] args) {
-		long time;
-		time=System.currentTimeMillis();
-		frak.update();
-		long t1 = System.currentTimeMillis()-time;
-		time=System.currentTimeMillis();
-		frak2.update();
-		long t2 = System.currentTimeMillis()-time;
-		System.out.println(((float)t1-t2)/(float)t1*100.0f);
-		
-		/*try {
-		    BufferedImage bi = (BufferedImage) img;
-		    File outputfile = new File("saved.png");
-		    ImageIO.write(bi, "png", outputfile);
-		} catch (IOException e) {}*/
+		vector2d v = new vector2d(0,1);
+		for(int i=0;i<10;i++){
+			v=lin.calc(v);
+			v.print();
+		}
 	}
 	public static Image getImageFromArray(int[][] pixels, int width, int height) {
         BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
