@@ -86,7 +86,6 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		double y=-1;
 		double x=-1;
 		double changex=0.05, changey=0.05;
-		public boolean flag=true;
 		public void actionPerformed(ActionEvent arg0) {
 			changex=((double)anSp.getValue())/100.0*Math.signum(changex);
 			changey=((double)anSp.getValue())/100.0*Math.signum(changey);
