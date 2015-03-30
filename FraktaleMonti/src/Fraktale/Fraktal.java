@@ -25,7 +25,7 @@ public class Fraktal implements Runnable{
 	}
 	public void update(){}
 	public void run() {
-		update();		
+		//update();		
 	};
 	
 }
