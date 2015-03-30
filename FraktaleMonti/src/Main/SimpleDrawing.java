@@ -100,9 +100,8 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		}
 	});
 
-	static SimpleDrawing s;
 	
-	
+
 	public SimpleDrawing() {	
 		
 		matrices = new double[][][]{{{0,0},{0,0}},{{0.85,0.04},{-0.04,0.85}},{{0.20,-0.26},{0.23,0.22}},{{-0.15,0.28},{0.26,0.24}}};
@@ -184,7 +183,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 		Button save =new Button("save");
 		save.setSize(50, 30);
-		save.setLocation(1000, 5);
+		save.setLocation(100, 5);
 		save.addActionListener(this);
 		this.add(save);
 		
