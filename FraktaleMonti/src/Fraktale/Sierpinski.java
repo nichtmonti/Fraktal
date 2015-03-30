@@ -26,14 +26,14 @@ public class Sierpinski extends Fraktal{
 	public void iterate(){
 		List<vector2d> temp = new ArrayList<vector2d>();
 		for(int i=0;i<P.size();i++){
-			System.out.println("    "+i);
+			//System.out.println("    "+i);
 			temp.addAll(Arrays.asList(calc(P.get(i))));
 		}
 		P=temp;
 	}
 	public void update(){
 		for(int i=0;i<10;i++){
-			System.out.println(i);
+			//System.out.println(i);
 			iterate();
 		}
 		render();
