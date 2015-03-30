@@ -48,7 +48,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	JRadioButtonMenuItem rbMenuItem;
 	JCheckBoxMenuItem cbMenuItem;
 	Scrollbar anSp;
-	String msg="";
+	
 	int sheight = 720;
 	int swidth = (int)(16.0f/9.0f*sheight);
 	int scaleFactor=1;
@@ -449,6 +449,7 @@ public void save(){
 	    genSFrakt();
 	    ImageIO.write(img, "png", outputfile);
 	    System.out.println("done saving at " + outputfile.getAbsolutePath() );
+	    update();
 	 
 	} catch (Exception p) {}
 }
@@ -457,7 +458,7 @@ public void reset(){
     swidth=w0;
     scale=s0;
     update();
-    msg="";
+  
 }
 public void genSFrakt(){
 	h0=sheight;
@@ -466,7 +467,7 @@ public void genSFrakt(){
 	sheight = 3000;
 	swidth = (int)(16.0/9.0*(float)sheight);
 	scale*=swidth/w0;
-	msg="generating fraktal...";
+	
 	System.out.println("generating fraktal");
 	update2();
 }
@@ -537,7 +538,7 @@ public void paint(Graphics g) {
 	try{g.drawImage(img, 0,0,img.getWidth(), img.getHeight(), null);}catch(java.lang.NullPointerException npe){}
 	g.drawLine(swidth/2,0,swidth/2,sheight);
 	g.drawLine(0,sheight/2,swidth,sheight/2);
-	g.drawString(msg,830,50);
+
 }
 
 /*public void loop (){
