@@ -297,6 +297,29 @@ public void center()
 	{
 		scale= 75;
 	}
+	
+	else if(fr == fraktTyp.Sierpinski)
+	{
+		scroll.setI(3.09499);
+		scroll.setR(0);
+		scale =74;
+		
+	}
+	
+	else if (fr == fraktTyp.Farn)
+	{
+		scale=155;
+		scroll.setI(6.51632);
+		scroll.setR(0.68536);
+		
+	}
+	
+	else if( fr== fraktTyp.Koch)
+	{
+		scale =450;
+		
+	}
+	
 	update();
 }
 
