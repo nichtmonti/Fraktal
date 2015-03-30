@@ -1,7 +1,6 @@
 package Main;
 import java.awt.Button;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -11,13 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import Util.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -26,7 +22,22 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.Timer;
 
-import Fraktale.*;
+import Fraktale.Buddhabrot;
+import Fraktale.Fraktal;
+import Fraktale.Julia;
+import Fraktale.JuliaEXP;
+import Fraktale.JuliaFUN;
+import Fraktale.MCFrak;
+import Fraktale.Mandel;
+import Util.Expression;
+import Util.FnParse;
+import Util.Fun;
+import Util.ImageFilter;
+import Util.Op;
+import Util.ParseState;
+import Util.Variable;
+import Util.complex;
+import Util.vector2d;
 
 public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	private static final long serialVersionUID = 1L;
@@ -362,7 +373,7 @@ public void actionPerformed(ActionEvent e) {
 		update();
 	}
 	else if(e.getActionCommand().equals("save")){
-		genSFrakt();
+		
 		save();
 		reset();
 	}
@@ -399,13 +410,23 @@ public void actionPerformed(ActionEvent e) {
 	
 }
 public void save(){
+
+	final JFileChooser fc = new JFileChooser();
+	fc.setFileFilter(new ImageFilter());
+	fc.showSaveDialog(this);
+
 	try {
-		String location = JOptionPane.showInputDialog("Please enter the desired destination", "Saving");
-		String filen = JOptionPane.showInputDialog("You can now enter a custom file name", "Saving");
-		if(filen==null)filen=fr+"_"+scroll.toString()+"_"+scale;
-	    File outputfile = new File((location==null?"":location)+filen+".png");
+		String path=fc.getSelectedFile().getPath();
+		String fileName = path.substring(path.lastIndexOf('\\')+1);
+		String location = path.substring(0, path.lastIndexOf('\\')+1);
+		System.out.println(fileName);
+		System.out.println(location);
+		if(fileName==null){fileName=fr+"_"+scroll.toString()+"_"+scale;}
+	    File outputfile = new File(location+fileName+".png");
+	    genSFrakt();
 	    ImageIO.write(img, "png", outputfile);
-	    JOptionPane.showConfirmDialog(menuBar,"done saving","saving",-1);
+	    System.out.println("done saving at " + outputfile.getAbsolutePath() );
+	  //  JOptionPane.showConfirmDialog(menuBar,"done saving","saving",-1);
 	} catch (Exception p) {}
 }
 public void reset(){
