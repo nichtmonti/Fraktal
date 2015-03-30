@@ -1,6 +1,6 @@
 package Fraktale;
 
-public class Fraktal implements Runnable{
+public abstract class Fraktal implements Runnable{
 
 	public int[][] pixels;
 	protected double xmin,xmax,ymax,ymin,scale;
@@ -23,9 +23,10 @@ public class Fraktal implements Runnable{
 
 		this.pixels = new int[(int)((xmax-xmin)*scale)+1][(int)((ymax-ymin)*scale)+1];
 	}
-	public void update(){}
-	public void run() {
-		//update();		
-	};
+	public abstract void update();
+	public  void run()
+	{
+		
+	}
 	
 }
