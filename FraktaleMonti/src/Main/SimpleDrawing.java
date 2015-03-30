@@ -282,6 +282,10 @@ public void center()
 	{
 	scale=150;
 	}
+	else if (fr == fraktTyp.Julia)
+	{
+		scale= 250;
+	}
 	update();
 }
 
