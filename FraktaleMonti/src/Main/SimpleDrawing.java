@@ -385,7 +385,7 @@ public void actionPerformed(ActionEvent e) {
 	else if(e.getActionCommand().equals("save")){
 		
 		save();
-		reset();
+		//reset();
 	}
 	else if(e.getActionCommand().equals("Fraktal ->")){
 		fraktAk++;
@@ -427,7 +427,7 @@ public void save(){
 	final JFileChooser fc = new JFileChooser();
 	fc.setFileFilter(new ImageFilter());
 	fc.showSaveDialog(this);
-
+	
 	try {
 		String path=fc.getSelectedFile().getPath();
 		String fileName = path.substring(path.lastIndexOf('\\')+1);
@@ -439,7 +439,7 @@ public void save(){
 	    genSFrakt();
 	    ImageIO.write(img, "png", outputfile);
 	    System.out.println("done saving at " + outputfile.getAbsolutePath() );
-	  //  JOptionPane.showConfirmDialog(menuBar,"done saving","saving",-1);
+	 
 	} catch (Exception p) {}
 }
 public void reset(){
