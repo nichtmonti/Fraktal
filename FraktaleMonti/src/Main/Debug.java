@@ -9,6 +9,8 @@ import Fraktale.*;
 
 import javax.imageio.ImageIO;
 
+import Util.complex;
+
 
 public class Debug {
 	static double xscroll=-1.402;
@@ -24,7 +26,7 @@ public class Debug {
 	static double w=(1.0*swidth)/(2.0*scale);
 	static double h=(1.0*sheight)/(2.0*scale);
 	
-	static Fraktal frak = new Buddhabrot(1000000,10000,100,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale);
+	static Fraktal frak = new JuliaEXP(100000,2,xscroll-w,xscroll+w,yscroll-h,yscroll+h,scale, new complex(0,1));
 	static Fraktal frak2 = new MCFrak(frak);
 	public static void main(String[] args) {
 		long time;
