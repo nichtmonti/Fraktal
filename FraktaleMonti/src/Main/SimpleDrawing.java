@@ -67,7 +67,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha;
 	}
 	int fraktAk = 0;
-	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN, fraktTyp.MCFUN,fraktTyp.Buddha};
+	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN,fraktTyp.Buddha};
 	complex c=new complex(0,0);
 	
 	fraktTyp fr = fraktTyp.Mandel;
@@ -279,7 +279,10 @@ public void center()
 {
 	scroll.setI(0);
 	scroll.setR(0);
-	scale=500;
+	if(fr == fraktTyp.Buddha)
+	{
+	scale=150;
+	}
 	update();
 }
 
