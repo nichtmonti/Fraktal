@@ -43,7 +43,7 @@ public class Farn extends Fraktal{
 		for(int i=0;i<pixels.length;i++)for(int j=0;j<pixels[i].length;j++)pixels[i][j]=0x000000;
 		for(vector2d x : P){
 			try{
-				pixels[(int)((x.getR()-xmin)*scale)][(int)((x.getI()-ymin)*scale)]=0xffff00;
+				pixels[(int)((x.getR()-xmin)*scale)][(int)((x.getI()-ymin)*scale)]=0x10ff10;
 			}catch(Exception e){};
 		}
 	}

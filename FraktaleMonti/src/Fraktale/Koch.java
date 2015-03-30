@@ -9,11 +9,14 @@ import Util.vector2d;
 
 public class Koch extends Fraktal{
 	List<vector2d> P = new ArrayList();
-	linearFun lin1 = new linearFun("{{"+(1.0f/3.0f)+",0},{0,0."+(1.0f/3.0f)+"}}","{{0,0}}");
-	linearFun lin2 = new linearFun("{{"+(1.0f/3.0f)+",0},{0,"+(1.0f/3.0f)+"}}","{{"+(2.0f/3.0f)+",0}}");
-	linearFun lin3 = new linearFun("{{0.16667,-0.28867},{0.28867,0.16667}}","{{"+(1.0f/3.0f)+",0}}");
-	linearFun lin4 = new linearFun("{{-0.16667,0.28867},{0.28867,0.16667}}","{{"+(2.0f/3.0f)+",0}}");
-	private int iteration = 10;
+	linearFun lin1 = new linearFun("{{0.5,-0.288675},{0.288675,0.5}}","{{0,0}}");
+	linearFun lin2 = new linearFun("{{0.3333333,0},{0,0.33333}}","{{0.577350,0.3333333}}");
+	linearFun lin3 = new linearFun("{{0.33333,0},{0,0.33333}}","{{0,0.66667}}");
+	linearFun lin4 = new linearFun("{{0.3333333,0},{0,0.3333333}}","{{-0.577350,0.3333333}}");
+	linearFun lin5 = new linearFun("{{0.3333333,0},{0,0.3333333}}","{{-0.577350,-0.3333333}}");
+	linearFun lin6 = new linearFun("{{0.3333333,0},{0,0.3333333}}","{{0,-0.6666667}}");
+	linearFun lin7 = new linearFun("{{0.3333333,0},{0,0.3333333}}","{{0.577350,-0.3333333}}");
+	private int iteration = 6;
 	public Koch(double xmin, double xmax, double ymin, double ymax,long scale) {
 		super(xmin, xmax, ymin, ymax, scale);
 		P.add(new vector2d(0,0));
@@ -22,7 +25,7 @@ public class Koch extends Fraktal{
 	
 	
 	public vector2d[] calc (vector2d x){
-		return new vector2d[]{lin1.calc(x),lin2.calc(x),lin3.calc(x),lin4.calc(x)};
+		return new vector2d[]{lin1.calc(x),lin2.calc(x),lin3.calc(x),lin4.calc(x),lin5.calc(x),lin6.calc(x),lin7.calc(x)};
 	}
 	public void iterate(){
 		List<vector2d> temp = new ArrayList<vector2d>();
@@ -43,7 +46,7 @@ public class Koch extends Fraktal{
 		for(int i=0;i<pixels.length;i++)for(int j=0;j<pixels[i].length;j++)pixels[i][j]=0x000000;
 		for(vector2d x : P){
 			try{
-				pixels[(int)((x.getR()-xmin)*scale)][(int)((x.getI()-ymin)*scale)]=0xffff00;
+				pixels[(int)((x.getR()-xmin)*scale)][(int)((x.getI()-ymin)*scale)]=0xffffff;
 			}catch(Exception e){};
 		}
 	}
