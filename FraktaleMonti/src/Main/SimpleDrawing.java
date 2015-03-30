@@ -285,6 +285,16 @@ public void center()
 	{
 		scale= 250;
 	}
+	
+	else if (fr == fraktTyp.Mandel)
+	{
+		scale= 300;
+	}
+	
+	else if (fr == fraktTyp.JuliaFUN)
+	{
+		scale= 75;
+	}
 	update();
 }
 
