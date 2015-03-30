@@ -321,6 +321,15 @@ public void center()
 		
 	}
 	
+	else if( fr== fraktTyp.Blatt)
+	{
+		scale =500;
+		scroll.setR(0.338);
+		scroll.setI(0.232);
+		
+	}
+	
+	
 	update();
 }
 
