@@ -457,7 +457,7 @@ public void genSFrakt(){
 }
 public void update(){
 
-	System.out.println(fr);
+	
 	sheight=getHeight();
 	swidth=getWidth();
 try{	this.setTitle((fr.name())); } catch(Exception ex){}
