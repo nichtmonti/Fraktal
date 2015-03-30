@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Label;
 import java.awt.Scrollbar;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -23,6 +22,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.Timer;
 
 import Fraktale.Buddhabrot;
+import Fraktale.Farn;
 import Fraktale.Fraktal;
 import Fraktale.Julia;
 import Fraktale.JuliaEXP;
@@ -65,10 +65,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	long s0;
 
 	enum fraktTyp {
-		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha,Sierpinski;
+		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha,Sierpinski,Farn;
 	}
 	int fraktAk = 0;
-	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN,fraktTyp.Buddha, fraktTyp.Sierpinski};
+	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN,fraktTyp.Buddha, fraktTyp.Sierpinski,fraktTyp.Farn};
 	complex c=new complex(0,0);
 	
 	fraktTyp fr = fraktTyp.Mandel;
@@ -446,7 +446,8 @@ public void save(){
 		System.out.println(fileName);
 		System.out.println(location);
 		if(fileName==null){fileName=fr+"_"+scroll.toString()+"_"+scale;}
-	    File outputfile = new File(location+fileName+".png");
+		if(!fileName.endsWith(".png"))fileName+=".png";
+	    File outputfile = new File(location+fileName);
 	    genSFrakt();
 	    ImageIO.write(img, "png", outputfile);
 	    System.out.println("done saving at " + outputfile.getAbsolutePath() );
@@ -498,6 +499,9 @@ public void update2(){
 	}
 	else if(fr==fraktTyp.Sierpinski){
 		frakt = new Sierpinski(scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
+	}
+	else if(fr==fraktTyp.Farn){
+		frakt = new Farn(scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	}
 	else {
 		frakt = new Julia(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
