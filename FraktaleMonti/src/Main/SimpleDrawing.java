@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.Timer;
 
+import Fraktale.Blatt;
 import Fraktale.Buddhabrot;
 import Fraktale.Farn;
 import Fraktale.Fraktal;
@@ -512,6 +513,7 @@ public void update2(){
 		frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 		frakt=new MCFrak(frakt);
 	}
+	
 	else if(fr==fraktTyp.JuliaEXP){
 		frakt = new JuliaEXP(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
@@ -530,9 +532,14 @@ public void update2(){
 	else if(fr==fraktTyp.Koch){
 		frakt = new Koch(scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 	}
+	else if(fr==fraktTyp.Blatt)
+	{frakt= new Blatt(scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
+	}	
 	else {
 		frakt = new Julia(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
+	
+	
 	frakt.update();
 	update3();
 }
