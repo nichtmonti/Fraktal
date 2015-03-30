@@ -66,10 +66,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	long s0;
 
 	enum fraktTyp {
-		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha,Sierpinski,Farn,Koch;
+		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha,Sierpinski,Farn,Koch,Blatt;
 	}
 	int fraktAk = 0;
-	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN,fraktTyp.Buddha, fraktTyp.Sierpinski,fraktTyp.Farn,fraktTyp.Koch};
+	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN,fraktTyp.Buddha, fraktTyp.Sierpinski,fraktTyp.Farn,fraktTyp.Koch, fraktTyp.Blatt};
 	complex c=new complex(0,0);
 	
 	fraktTyp fr = fraktTyp.Mandel;
