@@ -26,7 +26,7 @@ public class Keyboard2 implements KeyListener{
 			
 			if(keys[17]==true&&keys[83]==true){
 				d.genSFrakt();
-				d.safe();
+				d.save();
 				d.reset();
 			}
 			else if(keys[17]&&keys[48]){

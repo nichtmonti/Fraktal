@@ -169,7 +169,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 		Button save =new Button("save");
 		save.setSize(50, 30);
-		save.setLocation(100, 5);
+		save.setLocation(1000, 5);
 		save.addActionListener(this);
 		this.add(save);
 		
@@ -363,7 +363,7 @@ public void actionPerformed(ActionEvent e) {
 	}
 	else if(e.getActionCommand().equals("save")){
 		genSFrakt();
-		safe();
+		save();
 		reset();
 	}
 	else if(e.getActionCommand().equals("Fraktal ->")){
@@ -398,7 +398,7 @@ public void actionPerformed(ActionEvent e) {
 	}
 	
 }
-public void safe(){
+public void save(){
 	try {
 		String location = JOptionPane.showInputDialog("Please enter the desired destination", "Saving");
 		String filen = JOptionPane.showInputDialog("You can now enter a custom file name", "Saving");
