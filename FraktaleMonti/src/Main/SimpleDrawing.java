@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Label;
 import java.awt.Scrollbar;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -18,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.Timer;
 
@@ -62,6 +62,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	double w = (double)swidth/(double)scale/2.0;
 	int h0,w0;
 	long s0;
+
 	enum fraktTyp {
 		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha;
 	}
@@ -128,6 +129,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		zoom.addActionListener(this);
 		this.add(zoom);
 		
+		
+		
+	 
+	
 		Button center =new Button("Zentrieren");
 		center.setSize(80, 30);
 		center.setLocation(900, 5);
@@ -322,7 +327,7 @@ public void moveUp()
 }
 
 public void moveDown()
-{
+{	
 	/*if(frakt instanceof Mandel){
 		frakt.move(Fraktal.dir.down, 20);
 		update3();
@@ -390,6 +395,8 @@ public void actionPerformed(ActionEvent e) {
 		}
       this.setFocusTraversalKeysEnabled(true);
       this.requestFocus();
+      
+      
       update();
 	}
 	else if(e.getActionCommand().equals("<- Fraktal")){
@@ -405,6 +412,7 @@ public void actionPerformed(ActionEvent e) {
 		}
       this.setFocusTraversalKeysEnabled(true);
       this.requestFocus();
+     
       update();
 	}
 	
@@ -448,8 +456,11 @@ public void genSFrakt(){
 	update2();
 }
 public void update(){
+
+	System.out.println(fr);
 	sheight=getHeight();
 	swidth=getWidth();
+try{	this.setTitle((fr.name())); } catch(Exception ex){}
 	update2();
 }
 public void update2(){
