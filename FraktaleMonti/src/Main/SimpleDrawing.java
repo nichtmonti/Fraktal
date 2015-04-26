@@ -51,7 +51,7 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	JRadioButtonMenuItem rbMenuItem;
 	JCheckBoxMenuItem cbMenuItem;
 	Scrollbar anSp;
-	
+	String msg="";
 	int sheight = 720;
 	int swidth = (int)(16.0f/9.0f*sheight);
 	int scaleFactor=1;
@@ -67,10 +67,10 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	long s0;
 
 	enum fraktTyp {
-		Mandel,Julia,JuliaEXP,JuliaFUN, MCFUN,Buddha,Sierpinski,Farn,Koch,Blatt;
+		Mandel,Julia, JuliaFUN, MCFUN,Buddha,Sierpinski,Farn,Koch,Blatt;
 	}
 	int fraktAk = 0;
-	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaEXP,fraktTyp.JuliaFUN,fraktTyp.Buddha, fraktTyp.Sierpinski,fraktTyp.Farn,fraktTyp.Koch, fraktTyp.Blatt};
+	fraktTyp typen[] = {fraktTyp.Mandel,fraktTyp.Julia,fraktTyp.JuliaFUN,fraktTyp.Buddha, fraktTyp.Sierpinski,fraktTyp.Farn,fraktTyp.Koch, fraktTyp.Blatt};
 	complex c=new complex(0,0);
 	
 	fraktTyp fr = fraktTyp.Mandel;
@@ -85,6 +85,14 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 	vector2d[] transvec;
 	int bc=1000000;
 	
+	public Timer painter = new Timer(1000/10, new ActionListener(){
+		public void actionPerformed(ActionEvent arg0)
+		{
+			System.out.println("painter");
+			repaint();
+		}
+	});
+	
 	public Timer rundgang = new Timer(5000,new ActionListener(){
 		double y=-1;
 		double x=-1;
@@ -93,11 +101,6 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 			changex=((double)anSp.getValue())/100.0*Math.signum(changex);
 			changey=((double)anSp.getValue())/100.0*Math.signum(changey);
 			x+=changex;
-			if(Math.abs(x)>=(fr==fraktTyp.JuliaEXP?0.25:1)){
-				y+=changey;
-				changex*=-1;
-				if(Math.abs(y)>=(fr==fraktTyp.JuliaEXP?0.25:1))changey*=-1;
-			}
 			if(fr==fraktTyp.Mandel)moveTo(new complex(x,y));
 			else changeJC(x,y); 
 		}
@@ -256,8 +259,9 @@ public class SimpleDrawing extends JFrame implements ActionListener, Runnable{
 		
 		update();
 	
+		painter.start();
 		
-}
+	}
 
 public void zoomIn(int x)
 {	
@@ -508,23 +512,21 @@ public void genSFrakt(){
 	update2();
 }
 public void update(){
-
-	
+	msg="Setze Höhe und Breite...";
 	sheight=getHeight();
 	swidth=getWidth();
-try{	this.setTitle((fr.name())); } catch(Exception ex){}
+	try{this.setTitle((fr.name())); } catch(Exception ex){}
 	update2();
 }
 public void update2(){
 	h = (double)sheight/(double)scale/2.0;
 	w = (double)swidth/(double)scale/2.0;
+	
+	msg="generiere Fraktal...";
+	
 	if(fr==fraktTyp.Mandel){
 		frakt = new Mandel(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale);
 		frakt=new MCFrak(frakt);
-	}
-	
-	else if(fr==fraktTyp.JuliaEXP){
-		frakt = new JuliaEXP(iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
 	}
 	else if(fr==fraktTyp.JuliaFUN){
 		frakt = new JuliaFUN(ex,iteratio,max,scroll.getR()-w,scroll.getR()+w,scroll.getI()-h,scroll.getI()+h,scale,c);
@@ -550,9 +552,15 @@ public void update2(){
 	
 	
 	frakt.update();
+	
+	msg="berechne Fraktal";
+	
 	update3();
 }
 public void update3(){
+	
+	msg="konfiguriere UI";
+	
 	img = getImageFromArray(frakt.pixels,swidth,sheight);
 	if(fr!=fraktTyp.Mandel)cJul.setVisible(true);
 	else cJul.setVisible(false);
@@ -569,7 +577,8 @@ public void update3(){
 	ScrollT.setText(scroll.toString());
 	tMax.setText(""+max);
 	
-	repaint();
+	msg="done";
+	//repaint();
 }
 public static float round(double x, int dig) {
 	return (float)(Math.round(x*Math.pow(10,dig))/Math.pow(10, dig));
@@ -589,6 +598,7 @@ public void paint(Graphics g) {
 	try{g.drawImage(img, 0,0,img.getWidth(), img.getHeight(), null);}catch(java.lang.NullPointerException npe){}
 	g.drawLine(swidth/2,0,swidth/2,sheight);
 	g.drawLine(0,sheight/2,swidth,sheight/2);
+	g.drawString(msg, 100,100);
 
 }
 
