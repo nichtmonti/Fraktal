@@ -21,7 +21,15 @@ public class linearTransFrak extends Fraktal{
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+	public void setStartPoint (vector2d p)
+	{
+		P.clear();
+		P.add(p);
+	}
+	public void addStartPoint (vector2d p)
+	{
+		P.add(p);
+	}
 	public List<vector2d> calc (vector2d x){
 		List<vector2d> vecs = new ArrayList<vector2d>();
 		for(linearFun lin : funs)vecs.add(lin.calc(x));
